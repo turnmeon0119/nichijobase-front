@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f6f3ed;
+  --surface: #fffdf9;
+  --foreground: #1d1d1b;
+  --muted: #6d6a62;
+  --line: #dcd6ca;
+  --accent: #d94f2b;
+  --accent-soft: #f2ddd4;
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html,
+body {
+  min-height: 100%;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+body {
+  font-family: var(--font-geist-sans), "Hiragino Kaku Gothic ProN", sans-serif;
+  background-image:
+    radial-gradient(circle at 8% 0%, rgba(217, 79, 43, 0.08), transparent 24rem),
+    linear-gradient(rgba(29, 29, 27, 0.025) 1px, transparent 1px);
+  background-size: auto, 100% 32px;
+}
+
+a,
+button {
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+::selection {
+  background: var(--accent-soft);
+}
+
+.display-font {
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+}
+
+.editorial-label {
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.paper-card {
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  box-shadow: 0 18px 50px rgba(54, 45, 34, 0.06);
+}
+
+.fade-up {
+  animation: fade-up 600ms both;
+}
+
+.fade-up-delay-1 {
+  animation-delay: 100ms;
+}
+
+.fade-up-delay-2 {
+  animation-delay: 200ms;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up,
+  .fade-up-delay-1,
+  .fade-up-delay-2 {
+    animation: none;
+  }
+}
