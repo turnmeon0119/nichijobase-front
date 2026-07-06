@@ -2,6 +2,10 @@
 
 Next.js frontend for podcast articles and anonymous board.
 
+Backend API:
+
+- [turnmeon0119/nichijobase](https://github.com/turnmeon0119/nichijobase)
+
 ## Stack
 
 - Next.js 16 (App Router)
@@ -28,7 +32,6 @@ Frontend URL:
 - `/board` board thread list
 - `/board/new` create thread (anonymous)
 - `/board/[id]` thread detail + reply form
-- `/admin/articles/new` article create (admin token required)
 
 ## API Connection
 
@@ -38,9 +41,10 @@ Default API base:
 
 Optional env for frontend:
 
-- `NEXT_PUBLIC_API_BASE_URL=http://localhost:8000`
+- `API_BASE_URL=http://localhost:8000`
 
 ## Notes
 
-- Article write APIs are admin protected by `X-Admin-Token`.
+- Article and board administration are handled by Laravel.
 - Board posting is open (anonymous), with rate limit on backend.
+- Public users can report threads and replies from the frontend.
