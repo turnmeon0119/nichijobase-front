@@ -2,12 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getBoardThread } from "@/lib/api";
 import ReplyForm from "./reply-form";
-import {
-  PostDeleteButton,
-  PostReportButton,
-  ThreadDeleteButton,
-  ThreadReportButton,
-} from "./admin-delete-controls";
+import { PostReportButton, ThreadReportButton } from "./report-controls";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -46,7 +41,6 @@ export default async function BoardThreadPage({ params }: Props) {
         <p className="mt-4 whitespace-pre-wrap">{thread.body}</p>
         <div className="mt-4 flex flex-wrap gap-2">
           <ThreadReportButton threadId={thread.id} />
-          <ThreadDeleteButton threadId={thread.id} />
         </div>
       </article>
 
@@ -64,7 +58,6 @@ export default async function BoardThreadPage({ params }: Props) {
                 </span>
                 <div className="flex items-center gap-2">
                   <PostReportButton threadId={thread.id} postId={post.id} />
-                  <PostDeleteButton threadId={thread.id} postId={post.id} />
                 </div>
               </div>
               <p className="mt-2 whitespace-pre-wrap">{post.body}</p>

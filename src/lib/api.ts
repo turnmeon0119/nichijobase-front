@@ -140,24 +140,6 @@ export async function createBoardPost(
   return json.data;
 }
 
-export async function deleteBoardThread(threadId: number, adminToken: string): Promise<void> {
-  await fetchApi<void>(`/api/threads/${threadId}`, {
-    method: "DELETE",
-    headers: {
-      "X-Admin-Token": adminToken,
-    },
-  });
-}
-
-export async function deleteBoardPost(threadId: number, postId: number, adminToken: string): Promise<void> {
-  await fetchApi<void>(`/api/threads/${threadId}/posts/${postId}`, {
-    method: "DELETE",
-    headers: {
-      "X-Admin-Token": adminToken,
-    },
-  });
-}
-
 export async function reportBoardThread(threadId: number): Promise<void> {
   await fetchApi<void>(`/api/threads/${threadId}/report`, {
     method: "POST",

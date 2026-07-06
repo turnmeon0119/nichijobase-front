@@ -2,10 +2,18 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, Suspense, useMemo, useState } from "react";
 import { createBoardThread } from "@/lib/api";
 
 export default function BoardNewPage() {
+  return (
+    <Suspense fallback={<main className="min-h-screen" />}>
+      <BoardNewForm />
+    </Suspense>
+  );
+}
+
+function BoardNewForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
