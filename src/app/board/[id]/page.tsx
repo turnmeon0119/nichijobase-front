@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getBoardThread } from "@/lib/api";
 import ReplyForm from "./reply-form";
@@ -39,6 +40,15 @@ export default async function BoardThreadPage({ params }: Props) {
           </p>
         ) : null}
         <p className="mt-4 whitespace-pre-wrap">{thread.body}</p>
+        {thread.image_url ? (
+          <Image
+            src={thread.image_url}
+            alt=""
+            width={1200}
+            height={900}
+            className="mt-4 max-h-[560px] w-auto rounded-lg object-contain"
+          />
+        ) : null}
         <div className="mt-4 flex flex-wrap gap-2">
           <ThreadReportButton threadId={thread.id} />
         </div>
@@ -61,6 +71,15 @@ export default async function BoardThreadPage({ params }: Props) {
                 </div>
               </div>
               <p className="mt-2 whitespace-pre-wrap">{post.body}</p>
+              {post.image_url ? (
+                <Image
+                  src={post.image_url}
+                  alt=""
+                  width={1000}
+                  height={750}
+                  className="mt-3 max-h-96 w-auto rounded-lg object-contain"
+                />
+              ) : null}
             </article>
           ))
         )}

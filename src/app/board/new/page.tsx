@@ -30,6 +30,7 @@ function BoardNewForm() {
   const [title, setTitle] = useState(articleTitle ? `【記事】${articleTitle}` : "");
   const [name, setName] = useState("");
   const [body, setBody] = useState("");
+  const [image, setImage] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -44,6 +45,7 @@ function BoardNewForm() {
         title,
         name,
         body,
+        image,
       });
 
       router.push(`/board/${result.id}`);
@@ -75,6 +77,16 @@ function BoardNewForm() {
             onChange={(e) => setTitle(e.target.value)}
             maxLength={120}
             required
+          />
+        </label>
+
+        <label className="block">
+          <span className="mb-1 block text-sm">画像（任意・最大5MB）</span>
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            onChange={(event) => setImage(event.target.files?.[0] ?? null)}
+            className="w-full rounded border px-3 py-2"
           />
         </label>
 

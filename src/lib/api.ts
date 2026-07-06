@@ -38,6 +38,7 @@ export type BoardPost = {
   id: number;
   name: string | null;
   body: string;
+  image_url: string | null;
   created_at: string;
 };
 
@@ -48,6 +49,7 @@ export type BoardThreadDetail = {
   title: string;
   name: string | null;
   body: string;
+  image_url: string | null;
   created_at: string;
   posts: BoardPost[];
 };
@@ -57,11 +59,12 @@ type ApiResponse<T> = {
 };
 
 async function fetchApi<T>(path: string, init?: RequestInit): Promise<T> {
+  const isFormData = init?.body instanceof FormData;
   const response = await fetch(`${API_BASE_URL}${path}`, {
     cache: "no-store",
     ...init,
     headers: {
-      "Content-Type": "application/json",
+      ...(isFormData ? {} : { "Content-Type": "application/json" }),
       ...(init?.headers ?? {}),
     },
   });
@@ -116,10 +119,18 @@ export async function createBoardThread(input: {
   title: string;
   name?: string;
   body: string;
+  image?: File | null;
 }): Promise<{ id: number }> {
+  const body = new FormData();
+  if (input.article_id) body.append("article_id", String(input.article_id));
+  body.append("title", input.title);
+  body.append("name", input.name ?? "");
+  body.append("body", input.body);
+  if (input.image) body.append("image", input.image);
+
   const json = await fetchApi<ApiResponse<{ id: number }>>("/api/threads", {
     method: "POST",
-    body: JSON.stringify(input),
+    body,
   });
 
   return json.data;
@@ -130,11 +141,17 @@ export async function createBoardPost(
   input: {
     name?: string;
     body: string;
+    image?: File | null;
   },
 ): Promise<{ id: number }> {
+  const body = new FormData();
+  body.append("name", input.name ?? "");
+  body.append("body", input.body);
+  if (input.image) body.append("image", input.image);
+
   const json = await fetchApi<ApiResponse<{ id: number }>>(`/api/threads/${threadId}/posts`, {
     method: "POST",
-    body: JSON.stringify(input),
+    body,
   });
 
   return json.data;
