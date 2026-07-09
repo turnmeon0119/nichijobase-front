@@ -10,9 +10,9 @@ export default async function ArticlesPage() {
   const articles = await getArticles();
 
   return (
-    <main className="mx-auto min-h-screen max-w-3xl px-6 py-12">
+    <main className="mx-auto min-h-screen max-w-3xl px-4 py-8 sm:px-6 sm:py-12">
       <header className="mb-10">
-        <h1 className="text-3xl font-bold">記事一覧</h1>
+        <h1 className="text-2xl font-bold sm:text-3xl">記事一覧</h1>
         <p className="mt-2 text-sm text-gray-600">Podcast関連の記事を表示しています。</p>
       </header>
 

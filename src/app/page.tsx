@@ -23,10 +23,10 @@ export default async function Home() {
 
   return (
     <main className="mx-auto max-w-6xl px-5 pb-24 sm:px-8">
-      <section className="fade-up grid min-h-[72vh] items-center gap-12 border-b border-[var(--line)] py-16 lg:grid-cols-[1.25fr_0.75fr] lg:py-24">
+      <section className="fade-up grid items-center gap-10 border-b border-[var(--line)] py-12 sm:min-h-[72vh] sm:py-16 lg:grid-cols-[1.25fr_0.75fr] lg:py-24">
         <div>
           <p className="editorial-label">Podcast journal & community</p>
-          <h1 className="display-font mt-5 max-w-3xl text-5xl leading-[1.12] sm:text-6xl lg:text-7xl">
+          <h1 className="display-font mt-5 max-w-3xl text-4xl leading-[1.15] sm:text-6xl lg:text-7xl">
             いつもの話を、
             <br />
             もう少し深く。
@@ -141,10 +141,10 @@ export default async function Home() {
               記事の感想やPodcastで気になったことを、名前を決めずに書き込めます。
             </p>
             <Link
-              href="/board/new"
+              href="/articles"
               className="mt-6 inline-flex rounded-full border border-[var(--foreground)] px-5 py-2.5 text-sm font-semibold hover:bg-[var(--foreground)] hover:text-white"
             >
-              新しい話題をつくる
+              記事から話題を探す
             </Link>
           </div>
 

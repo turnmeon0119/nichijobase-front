@@ -25,7 +25,7 @@ export default async function BoardThreadPage({ params }: Props) {
   }
 
   return (
-    <main className="mx-auto min-h-screen max-w-3xl px-6 py-12">
+    <main className="mx-auto min-h-screen max-w-3xl px-4 py-8 sm:px-6 sm:py-12">
       <Link href="/board" className="text-sm text-blue-700 hover:underline">
         ← 掲示板一覧へ戻る
       </Link>
@@ -68,7 +68,7 @@ export default async function BoardThreadPage({ params }: Props) {
         ) : (
           thread.posts.map((post) => (
             <article key={post.id} className="rounded-lg border p-4">
-              <div className="flex items-center justify-between gap-3 text-xs text-gray-500">
+              <div className="flex flex-col items-start gap-2 text-xs text-gray-500 sm:flex-row sm:items-center sm:justify-between">
                 <span>
                   #{post.id} / {post.name || "名無しさん"} / {new Date(post.created_at).toLocaleString("ja-JP")}
                 </span>

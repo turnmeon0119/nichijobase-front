@@ -18,15 +18,15 @@ export default async function ArticleDetailPage({ params }: Props) {
   const thread = await getBoardThreadByArticleSlug(slug).catch(() => null);
 
   return (
-    <main className="mx-auto min-h-screen max-w-3xl px-6 py-12">
+    <main className="mx-auto min-h-screen max-w-3xl px-4 py-8 sm:px-6 sm:py-12">
       <Link href="/articles" className="text-sm text-blue-700 hover:underline">
         ← 記事一覧へ戻る
       </Link>
 
       <article className="mt-6">
         <header className="mb-8 border-b pb-5">
-          <h1 className="text-3xl font-bold leading-tight">{article.title}</h1>
-          <div className="mt-3 flex items-center gap-4 text-sm text-gray-500">
+          <h1 className="text-2xl font-bold leading-tight sm:text-3xl">{article.title}</h1>
+          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500">
             {article.type ? <span>{article.type}</span> : null}
             <time dateTime={article.published_at}>
               {new Date(article.published_at).toLocaleDateString("ja-JP")}

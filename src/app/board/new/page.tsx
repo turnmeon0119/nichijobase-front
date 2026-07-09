@@ -58,11 +58,11 @@ function BoardNewForm() {
 
   if (!initialArticleId) {
     return (
-      <main className="mx-auto min-h-screen max-w-3xl px-6 py-12">
+      <main className="mx-auto min-h-screen max-w-3xl px-4 py-8 sm:px-6 sm:py-12">
         <Link href="/board" className="text-sm text-blue-700 hover:underline">
           ← 掲示板一覧へ戻る
         </Link>
-        <section className="mt-6 rounded-lg border border-stone-300 p-8">
+        <section className="mt-6 rounded-lg border border-stone-300 p-5 sm:p-8">
           <h1 className="text-2xl font-bold">記事から話題を始めてください</h1>
           <p className="mt-3 text-stone-600">
             掲示板のスレッドは、各記事の詳細ページから作成できます。
@@ -76,18 +76,18 @@ function BoardNewForm() {
   }
 
   return (
-    <main className="mx-auto min-h-screen max-w-3xl px-6 py-12">
+    <main className="mx-auto min-h-screen max-w-3xl px-4 py-8 sm:px-6 sm:py-12">
       <Link href="/board" className="text-sm text-blue-700 hover:underline">
         ← 掲示板一覧へ戻る
       </Link>
 
-      <h1 className="mt-4 text-3xl font-bold">新規スレッド作成</h1>
+      <h1 className="mt-4 text-2xl font-bold sm:text-3xl">新規スレッド作成</h1>
 
       {initialArticleId ? (
         <p className="mt-2 text-sm text-gray-600">記事に紐づくスレッドとして作成します。</p>
       ) : null}
 
-      <form onSubmit={onSubmit} className="mt-6 space-y-4 rounded-lg border p-6">
+      <form onSubmit={onSubmit} className="mt-6 space-y-4 rounded-lg border p-4 sm:p-6">
         <label className="block">
           <span className="mb-1 block text-sm">タイトル</span>
           <input
@@ -134,7 +134,7 @@ function BoardNewForm() {
         <button
           type="submit"
           disabled={loading}
-          className="rounded bg-black px-4 py-2 text-white disabled:opacity-60"
+          className="min-h-11 w-full rounded bg-black px-4 py-2 text-white disabled:opacity-60 sm:w-auto"
         >
           {loading ? "投稿中..." : "スレッドを作成"}
         </button>

@@ -16,17 +16,17 @@ export default async function BoardPage({ searchParams }: Props) {
     : "/board?sort=popular";
 
   return (
-    <main className="mx-auto min-h-screen max-w-3xl px-6 py-12">
+    <main className="mx-auto min-h-screen max-w-3xl px-4 py-8 sm:px-6 sm:py-12">
       <header className="mb-8">
         <div>
-          <h1 className="text-3xl font-bold">匿名掲示板</h1>
+          <h1 className="text-2xl font-bold sm:text-3xl">匿名掲示板</h1>
           <p className="mt-2 text-sm text-gray-600">
             記事を読んだ人が、匿名で感想や別の視点を共有する場所です。
           </p>
         </div>
       </header>
 
-      <form action="/board" method="GET" className="mb-5 flex gap-2">
+      <form action="/board" method="GET" className="mb-5 flex flex-col gap-2 sm:flex-row">
         <input
           type="search"
           name="q"
@@ -36,7 +36,7 @@ export default async function BoardPage({ searchParams }: Props) {
           className="min-w-0 flex-1 rounded-full border border-stone-300 bg-white px-5 py-3 outline-none focus:border-stone-700"
         />
         <input type="hidden" name="sort" value={sort} />
-        <button type="submit" className="rounded-full bg-stone-900 px-5 py-3 text-white">
+        <button type="submit" className="min-h-11 rounded-full bg-stone-900 px-5 py-3 text-white">
           検索
         </button>
       </form>

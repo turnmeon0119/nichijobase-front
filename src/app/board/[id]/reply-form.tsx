@@ -34,7 +34,7 @@ export default function ReplyForm({ threadId }: Props) {
   }
 
   return (
-    <form onSubmit={onSubmit} className="mt-8 space-y-4 rounded-lg border p-5">
+    <form onSubmit={onSubmit} className="mt-8 space-y-4 rounded-lg border p-4 sm:p-5">
       <h2 className="text-lg font-semibold">返信する</h2>
 
       <label className="block">
@@ -72,7 +72,7 @@ export default function ReplyForm({ threadId }: Props) {
       <button
         type="submit"
         disabled={loading}
-        className="rounded bg-black px-4 py-2 text-white disabled:opacity-60"
+        className="min-h-11 w-full rounded bg-black px-4 py-2 text-white disabled:opacity-60 sm:w-auto"
       >
         {loading ? "送信中..." : "返信を投稿"}
       </button>
