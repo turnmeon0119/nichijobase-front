@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createBoardPost } from "@/lib/api";
+import ImagePicker from "../image-picker";
 
 type Props = {
   threadId: number;
@@ -13,6 +14,7 @@ export default function ReplyForm({ threadId }: Props) {
   const [name, setName] = useState("");
   const [body, setBody] = useState("");
   const [image, setImage] = useState<File | null>(null);
+  const [imagePickerKey, setImagePickerKey] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,6 +27,7 @@ export default function ReplyForm({ threadId }: Props) {
       await createBoardPost(threadId, { name, body, image });
       setBody("");
       setImage(null);
+      setImagePickerKey((key) => key + 1);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "返信に失敗しました");
@@ -47,18 +50,16 @@ export default function ReplyForm({ threadId }: Props) {
         />
       </label>
 
-      <label className="block">
+      <div>
         <span className="mb-1 block text-sm">画像（任意・最大5MB）</span>
-        <input
-          type="file"
-          accept="image/jpeg,image/png,image/webp"
-          onChange={(event) => setImage(event.target.files?.[0] ?? null)}
-          className="w-full rounded border px-3 py-2"
-        />
-      </label>
+        <ImagePicker key={imagePickerKey} onChange={setImage} />
+      </div>
 
       <label className="block">
-        <span className="mb-1 block text-sm">本文</span>
+        <span className="mb-1 flex justify-between gap-3 text-sm">
+          <span>本文</span>
+          <span className="text-stone-500">{body.length} / 5000</span>
+        </span>
         <textarea
           className="w-full rounded border px-3 py-2"
           value={body}

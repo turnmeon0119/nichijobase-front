@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, Suspense, useMemo, useState } from "react";
 import { createBoardThread } from "@/lib/api";
+import ImagePicker from "../image-picker";
 
 export default function BoardNewPage() {
   return (
@@ -89,7 +90,10 @@ function BoardNewForm() {
 
       <form onSubmit={onSubmit} className="mt-6 space-y-4 rounded-lg border p-4 sm:p-6">
         <label className="block">
-          <span className="mb-1 block text-sm">タイトル</span>
+          <span className="mb-1 flex justify-between gap-3 text-sm">
+            <span>タイトル</span>
+            <span className="text-stone-500">{title.length} / 120</span>
+          </span>
           <input
             className="w-full rounded border px-3 py-2"
             value={title}
@@ -99,15 +103,10 @@ function BoardNewForm() {
           />
         </label>
 
-        <label className="block">
+        <div>
           <span className="mb-1 block text-sm">画像（任意・最大5MB）</span>
-          <input
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-            onChange={(event) => setImage(event.target.files?.[0] ?? null)}
-            className="w-full rounded border px-3 py-2"
-          />
-        </label>
+          <ImagePicker onChange={setImage} />
+        </div>
 
         <label className="block">
           <span className="mb-1 block text-sm">名前（任意）</span>
@@ -120,7 +119,10 @@ function BoardNewForm() {
         </label>
 
         <label className="block">
-          <span className="mb-1 block text-sm">本文</span>
+          <span className="mb-1 flex justify-between gap-3 text-sm">
+            <span>本文</span>
+            <span className="text-stone-500">{body.length} / 5000</span>
+          </span>
           <textarea
             className="w-full rounded border px-3 py-2"
             value={body}
