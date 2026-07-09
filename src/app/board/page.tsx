@@ -2,13 +2,18 @@ import Link from "next/link";
 import { getBoardThreads } from "@/lib/api";
 
 type Props = {
-  searchParams: Promise<{ sort?: string }>;
+  searchParams: Promise<{ sort?: string; q?: string }>;
 };
 
 export default async function BoardPage({ searchParams }: Props) {
   const params = await searchParams;
   const sort = params.sort === "popular" ? "popular" : "latest";
-  const threads = await getBoardThreads(sort);
+  const keyword = (params.q ?? "").trim().slice(0, 100);
+  const threads = await getBoardThreads(sort, keyword);
+  const latestHref = keyword ? `/board?q=${encodeURIComponent(keyword)}` : "/board";
+  const popularHref = keyword
+    ? `/board?sort=popular&q=${encodeURIComponent(keyword)}`
+    : "/board?sort=popular";
 
   return (
     <main className="mx-auto min-h-screen max-w-3xl px-6 py-12">
@@ -22,9 +27,24 @@ export default async function BoardPage({ searchParams }: Props) {
         </Link>
       </header>
 
+      <form action="/board" method="GET" className="mb-5 flex gap-2">
+        <input
+          type="search"
+          name="q"
+          defaultValue={keyword}
+          maxLength={100}
+          placeholder="タイトル・本文を検索"
+          className="min-w-0 flex-1 rounded-full border border-stone-300 bg-white px-5 py-3 outline-none focus:border-stone-700"
+        />
+        <input type="hidden" name="sort" value={sort} />
+        <button type="submit" className="rounded-full bg-stone-900 px-5 py-3 text-white">
+          検索
+        </button>
+      </form>
+
       <nav className="mb-6 flex w-fit rounded-full border border-stone-300 bg-stone-100 p-1">
         <Link
-          href="/board"
+          href={latestHref}
           className={`rounded-full px-4 py-2 text-sm ${
             sort === "latest" ? "bg-stone-900 text-white" : "text-stone-600"
           }`}
@@ -32,7 +52,7 @@ export default async function BoardPage({ searchParams }: Props) {
           新着順
         </Link>
         <Link
-          href="/board?sort=popular"
+          href={popularHref}
           className={`rounded-full px-4 py-2 text-sm ${
             sort === "popular" ? "bg-stone-900 text-white" : "text-stone-600"
           }`}
@@ -41,8 +61,13 @@ export default async function BoardPage({ searchParams }: Props) {
         </Link>
       </nav>
 
-      <ul className="space-y-4">
-        {threads.map((thread) => (
+      {threads.length === 0 ? (
+        <div className="rounded-lg border border-dashed border-stone-300 px-6 py-12 text-center text-stone-500">
+          {keyword ? `「${keyword}」に一致する話題はありません。` : "まだ話題がありません。"}
+        </div>
+      ) : (
+        <ul className="space-y-4">
+          {threads.map((thread) => (
           <li key={thread.id} className="rounded-lg border p-5">
             <div className="mb-2 text-xs text-gray-500">
               No.{thread.id} / {new Date(thread.latest_post_at ?? thread.created_at).toLocaleString("ja-JP")} /
@@ -66,8 +91,9 @@ export default async function BoardPage({ searchParams }: Props) {
               共感 {thread.empathy_count} ・ 別視点 {thread.perspective_count}
             </p>
           </li>
-        ))}
-      </ul>
+          ))}
+        </ul>
+      )}
     </main>
   );
 }

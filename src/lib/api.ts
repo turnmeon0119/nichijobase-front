@@ -105,8 +105,14 @@ export async function getArticleBySlug(slug: string): Promise<ArticleDetail> {
 
 export async function getBoardThreads(
   sort: "latest" | "popular" = "latest",
+  keyword = "",
 ): Promise<BoardThreadListItem[]> {
-  const json = await fetchApi<ApiResponse<BoardThreadListItem[]>>(`/api/threads?sort=${sort}`);
+  const params = new URLSearchParams({ sort });
+  if (keyword) params.set("q", keyword);
+
+  const json = await fetchApi<ApiResponse<BoardThreadListItem[]>>(
+    `/api/threads?${params.toString()}`,
+  );
   return json.data;
 }
 
