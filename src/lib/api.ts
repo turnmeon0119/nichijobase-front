@@ -32,6 +32,8 @@ export type BoardThreadListItem = {
   created_at: string;
   posts_count: number;
   latest_post_at: string | null;
+  empathy_count: number;
+  perspective_count: number;
 };
 
 export type BoardPost = {
@@ -101,8 +103,10 @@ export async function getArticleBySlug(slug: string): Promise<ArticleDetail> {
   return json.data;
 }
 
-export async function getBoardThreads(): Promise<BoardThreadListItem[]> {
-  const json = await fetchApi<ApiResponse<BoardThreadListItem[]>>("/api/threads");
+export async function getBoardThreads(
+  sort: "latest" | "popular" = "latest",
+): Promise<BoardThreadListItem[]> {
+  const json = await fetchApi<ApiResponse<BoardThreadListItem[]>>(`/api/threads?sort=${sort}`);
   return json.data;
 }
 

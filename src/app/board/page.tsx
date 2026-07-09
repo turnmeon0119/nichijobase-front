@@ -1,8 +1,14 @@
 import Link from "next/link";
 import { getBoardThreads } from "@/lib/api";
 
-export default async function BoardPage() {
-  const threads = await getBoardThreads();
+type Props = {
+  searchParams: Promise<{ sort?: string }>;
+};
+
+export default async function BoardPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const sort = params.sort === "popular" ? "popular" : "latest";
+  const threads = await getBoardThreads(sort);
 
   return (
     <main className="mx-auto min-h-screen max-w-3xl px-6 py-12">
@@ -15,6 +21,25 @@ export default async function BoardPage() {
           新規スレッド
         </Link>
       </header>
+
+      <nav className="mb-6 flex w-fit rounded-full border border-stone-300 bg-stone-100 p-1">
+        <Link
+          href="/board"
+          className={`rounded-full px-4 py-2 text-sm ${
+            sort === "latest" ? "bg-stone-900 text-white" : "text-stone-600"
+          }`}
+        >
+          新着順
+        </Link>
+        <Link
+          href="/board?sort=popular"
+          className={`rounded-full px-4 py-2 text-sm ${
+            sort === "popular" ? "bg-stone-900 text-white" : "text-stone-600"
+          }`}
+        >
+          人気順
+        </Link>
+      </nav>
 
       <ul className="space-y-4">
         {threads.map((thread) => (
@@ -36,6 +61,9 @@ export default async function BoardPage() {
             <p className="mt-2 text-sm text-gray-700">
               {(thread.body ?? "").slice(0, 120)}
               {(thread.body ?? "").length > 120 ? "..." : ""}
+            </p>
+            <p className="mt-3 text-xs text-stone-500">
+              共感 {thread.empathy_count} ・ 別視点 {thread.perspective_count}
             </p>
           </li>
         ))}
