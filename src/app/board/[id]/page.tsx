@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getBoardThread } from "@/lib/api";
 import ReplyForm from "./reply-form";
 import { PostReportButton, ThreadReportButton } from "./report-controls";
+import ReactionBar from "./reaction-bar";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -49,6 +50,11 @@ export default async function BoardThreadPage({ params }: Props) {
             className="mt-4 max-h-[560px] w-auto rounded-lg object-contain"
           />
         ) : null}
+        <ReactionBar
+          threadId={thread.id}
+          initialEmpathyCount={thread.empathy_count}
+          initialPerspectiveCount={thread.perspective_count}
+        />
         <div className="mt-4 flex flex-wrap gap-2">
           <ThreadReportButton threadId={thread.id} />
         </div>
