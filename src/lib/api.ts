@@ -127,14 +127,14 @@ export async function getBoardThreadByArticleSlug(slug: string): Promise<BoardTh
 }
 
 export async function createBoardThread(input: {
-  article_id?: number;
+  article_id: number;
   title: string;
   name?: string;
   body: string;
   image?: File | null;
 }): Promise<{ id: number }> {
   const body = new FormData();
-  if (input.article_id) body.append("article_id", String(input.article_id));
+  body.append("article_id", String(input.article_id));
   body.append("title", input.title);
   body.append("name", input.name ?? "");
   body.append("body", input.body);

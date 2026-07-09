@@ -41,7 +41,7 @@ function BoardNewForm() {
 
     try {
       const result = await createBoardThread({
-        article_id: initialArticleId ?? undefined,
+        article_id: initialArticleId!,
         title,
         name,
         body,
@@ -54,6 +54,25 @@ function BoardNewForm() {
     } finally {
       setLoading(false);
     }
+  }
+
+  if (!initialArticleId) {
+    return (
+      <main className="mx-auto min-h-screen max-w-3xl px-6 py-12">
+        <Link href="/board" className="text-sm text-blue-700 hover:underline">
+          ← 掲示板一覧へ戻る
+        </Link>
+        <section className="mt-6 rounded-lg border border-stone-300 p-8">
+          <h1 className="text-2xl font-bold">記事から話題を始めてください</h1>
+          <p className="mt-3 text-stone-600">
+            掲示板のスレッドは、各記事の詳細ページから作成できます。
+          </p>
+          <Link href="/articles" className="mt-5 inline-flex rounded-full bg-stone-900 px-5 py-3 text-white">
+            記事を選ぶ
+          </Link>
+        </section>
+      </main>
+    );
   }
 
   return (

@@ -17,14 +17,13 @@ export default async function BoardPage({ searchParams }: Props) {
 
   return (
     <main className="mx-auto min-h-screen max-w-3xl px-6 py-12">
-      <header className="mb-8 flex items-end justify-between gap-4">
+      <header className="mb-8">
         <div>
           <h1 className="text-3xl font-bold">匿名掲示板</h1>
-          <p className="mt-2 text-sm text-gray-600">誰でもスレッド作成・返信ができます。</p>
+          <p className="mt-2 text-sm text-gray-600">
+            記事を読んだ人が、匿名で感想や別の視点を共有する場所です。
+          </p>
         </div>
-        <Link href="/board/new" className="rounded bg-black px-4 py-2 text-white">
-          新規スレッド
-        </Link>
       </header>
 
       <form action="/board" method="GET" className="mb-5 flex gap-2">
