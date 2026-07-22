@@ -48,6 +48,12 @@ export default async function Home() {
             >
               掲示板をのぞく
             </Link>
+            <Link
+              href="/gacha"
+              className="inline-flex items-center gap-3 rounded-full border border-[var(--line)] bg-[var(--surface)] px-6 py-3 text-sm font-semibold hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[var(--accent)]"
+            >
+              ガチャをまわす
+            </Link>
           </div>
         </div>
 

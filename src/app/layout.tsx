@@ -45,6 +45,9 @@ export default function RootLayout({
             <Link href="/board" className="text-sm font-medium hover:text-[var(--accent)]">
               掲示板
             </Link>
+            <Link href="/gacha" className="text-sm font-medium hover:text-[var(--accent)]">
+              ガチャ
+            </Link>
           </nav>
         </header>
         {children}
