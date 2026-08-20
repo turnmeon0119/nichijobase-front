@@ -9,6 +9,7 @@ const navItems = [
   { href: "/articles", label: "articles" },
   { href: "/board", label: "board" },
   { href: "/gacha", label: "gacha" },
+  { href: "/ogiri", label: "ogiri" },
   { href: "/about", label: "about" },
   { href: "/contact", label: "contact" },
 ];

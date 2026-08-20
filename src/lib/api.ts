@@ -60,6 +60,30 @@ export type BoardThreadDetail = {
   posts: BoardPost[];
 };
 
+
+export type OgiriPromptListItem = {
+  id: number;
+  title: string;
+  body: string | null;
+  image_url: string | null;
+  published_at: string;
+  answers_count: number;
+};
+
+export type OgiriAnswer = {
+  id: number;
+  name: string | null;
+  body: string;
+  funny_count: number;
+  genius_count: number;
+  created_at: string;
+};
+
+export type OgiriPromptDetail = OgiriPromptListItem & {
+  answers: OgiriAnswer[];
+};
+
+
 type ApiResponse<T> = {
   data: T;
 };
@@ -210,4 +234,42 @@ export async function reportBoardPost(threadId: number, postId: number): Promise
   await fetchApi<void>(`/api/threads/${threadId}/posts/${postId}/report`, {
     method: "POST",
   });
+}
+
+export async function getOgiriPrompts(): Promise<OgiriPromptListItem[]> {
+  const json = await fetchApi<ApiResponse<OgiriPromptListItem[]>>("/api/ogiri/prompts");
+  return json.data;
+}
+
+export async function getOgiriPrompt(promptId: number): Promise<OgiriPromptDetail> {
+  const json = await fetchApi<ApiResponse<OgiriPromptDetail>>(`/api/ogiri/prompts/${promptId}`);
+  return json.data;
+}
+
+export async function createOgiriAnswer(
+  promptId: number,
+  input: { name?: string; body: string },
+): Promise<{ id: number }> {
+  const json = await fetchApi<ApiResponse<{ id: number }>>(`/api/ogiri/prompts/${promptId}/answers`, {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+
+  return json.data;
+}
+
+export async function reactToOgiriAnswer(
+  promptId: number,
+  answerId: number,
+  type: "funny" | "genius",
+): Promise<{ funny_count: number; genius_count: number }> {
+  const json = await fetchApi<ApiResponse<{ funny_count: number; genius_count: number }>>(
+    `/api/ogiri/prompts/${promptId}/answers/${answerId}/reactions`,
+    {
+      method: "POST",
+      body: JSON.stringify({ type }),
+    },
+  );
+
+  return json.data;
 }

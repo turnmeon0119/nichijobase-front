@@ -38,4 +38,9 @@ export const programs = [
     description: "読むか、書くか、迷ったときに今日のアクションを引ける軽い遊びです。",
     href: "/gacha",
   },
+  {
+    title: "Ogiri BASE",
+    description: "お題に対して匿名で短い回答を投稿し、じわる・天才リアクションで遊べます。",
+    href: "/ogiri",
+  },
 ];
