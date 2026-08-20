@@ -39,18 +39,19 @@ export default async function ArticleDetailPage({ params }: Props) {
       </article>
 
       <section className="mt-10 rounded-lg border p-5">
-        <h2 className="text-xl font-semibold">この記事の掲示板</h2>
+        <p className="editorial-label">Article board</p>
+        <h2 className="mt-2 text-xl font-semibold">この記事に紐づく掲示板</h2>
 
         {thread ? (
           <div className="mt-3">
-            <p className="text-sm text-gray-600">この掲示板で匿名で感想・質問を書き込めます。</p>
+            <p className="text-sm text-gray-600">この記事を起点に作られた掲示板です。返信や共感は、この掲示板に紐づいて残ります。</p>
             <Link href={`/board/${thread.id}`} className="mt-3 inline-flex rounded bg-black px-4 py-2 text-white">
               スレッドを開く（返信 {thread.posts.length}）
             </Link>
           </div>
         ) : (
           <div className="mt-3">
-            <p className="text-sm text-gray-600">まだこの記事専用のスレッドはありません。</p>
+            <p className="text-sm text-gray-600">まだこの記事に紐づく掲示板はありません。最初の話題を作成できます。</p>
             <Link
               href={`/board/new?articleId=${article.id}&articleTitle=${encodeURIComponent(article.title)}`}
               className="mt-3 inline-flex rounded bg-black px-4 py-2 text-white"

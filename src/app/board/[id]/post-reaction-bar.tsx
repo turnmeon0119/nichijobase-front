@@ -1,22 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { reactToBoardThread } from "@/lib/api";
+import { reactToBoardPost } from "@/lib/api";
 
 type ReactionType = "empathy" | "perspective";
 
 type Props = {
   threadId: number;
+  postId: number;
   initialEmpathyCount: number;
   initialPerspectiveCount: number;
 };
 
-export default function ReactionBar({
+export default function PostReactionBar({
   threadId,
+  postId,
   initialEmpathyCount,
   initialPerspectiveCount,
 }: Props) {
-  const storageKey = `nichijobase:thread-reaction:${threadId}`;
+  const storageKey = `nichijobase:post-reaction:${postId}`;
   const [empathyCount, setEmpathyCount] = useState(initialEmpathyCount);
   const [perspectiveCount, setPerspectiveCount] = useState(initialPerspectiveCount);
   const [voted, setVoted] = useState<ReactionType | null>(null);
@@ -34,13 +36,13 @@ export default function ReactionBar({
 
     try {
       setLoading(true);
-      const counts = await reactToBoardThread(threadId, type);
+      const counts = await reactToBoardPost(threadId, postId, type);
       setEmpathyCount(counts.empathy_count);
       setPerspectiveCount(counts.perspective_count);
       setVoted(type);
       window.localStorage.setItem(storageKey, type);
     } catch (error) {
-      window.alert(error instanceof Error ? error.message : "投票に失敗しました");
+      window.alert(error instanceof Error ? error.message : "リアクションに失敗しました");
     } finally {
       setLoading(false);
     }

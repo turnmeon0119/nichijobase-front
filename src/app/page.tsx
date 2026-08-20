@@ -1,16 +1,6 @@
 import Link from "next/link";
 import { getArticles, getBoardThreads } from "@/lib/api";
-
-const dateFormatter = new Intl.DateTimeFormat("ja-JP", {
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-});
-
-const typeLabel = {
-  episode: "EPISODE NOTES",
-  editorial: "EDITORIAL",
-} as const;
+import { newsItems, programs } from "@/lib/site-content";
 
 export default async function Home() {
   const [articles, threads] = await Promise.all([
@@ -18,165 +8,111 @@ export default async function Home() {
     getBoardThreads().catch(() => []),
   ]);
 
-  const latestArticles = articles.slice(0, 2);
-  const recentThreads = threads.slice(0, 2);
+  const latestNews = newsItems.slice(0, 3);
 
   return (
-    <main className="mx-auto max-w-6xl px-5 pb-24 sm:px-8">
-      <section className="fade-up grid items-center gap-10 border-b border-[var(--line)] py-12 sm:min-h-[72vh] sm:py-16 lg:grid-cols-[1.25fr_0.75fr] lg:py-24">
-        <div>
-          <p className="editorial-label">Podcast journal & community</p>
-          <h1 className="display-font mt-5 max-w-3xl text-4xl leading-[1.15] sm:text-6xl lg:text-7xl">
-            いつもの話を、
-            <br />
-            もう少し深く。
-          </h1>
-          <p className="mt-7 max-w-2xl text-base leading-8 text-[var(--muted)] sm:text-lg">
-            日常BASEは、Podcastで話したテーマを記事で読み直し、
-            気になったことを匿名で語り合える小さな編集部です。
-          </p>
-          <div className="mt-9 flex flex-wrap gap-3">
-            <Link
-              href="/articles"
-              className="inline-flex items-center gap-3 rounded-full bg-[var(--foreground)] px-6 py-3 text-sm font-semibold text-white hover:-translate-y-0.5 hover:bg-[var(--accent)]"
-            >
-              記事を読む <span aria-hidden="true">→</span>
-            </Link>
-            <Link
-              href="/board"
-              className="inline-flex items-center gap-3 rounded-full border border-[var(--line)] bg-[var(--surface)] px-6 py-3 text-sm font-semibold hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[var(--accent)]"
-            >
-              掲示板をのぞく
-            </Link>
-            <Link
-              href="/gacha"
-              className="inline-flex items-center gap-3 rounded-full border border-[var(--line)] bg-[var(--surface)] px-6 py-3 text-sm font-semibold hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[var(--accent)]"
-            >
-              ガチャをまわす
-            </Link>
+    <main className="pb-24">
+      <section className="mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="fade-up grid min-h-[78vh] border-x border-[var(--line)] lg:grid-cols-[1fr_0.78fr]">
+          <div className="flex flex-col justify-between border-b border-[var(--line)] p-6 sm:p-10 lg:border-b-0 lg:border-r lg:p-12">
+            <div>
+              <p className="editorial-label">Podcast journal / News / Community</p>
+              <h1 className="display-font mt-8 max-w-4xl text-[4.5rem] leading-[0.9] tracking-[-0.08em] sm:text-[7rem] lg:text-[9rem]">
+                日常
+                <br />
+                BASE
+              </h1>
+              <p className="mt-8 max-w-2xl text-lg leading-9 text-[var(--muted)] sm:text-xl">
+                Podcastで話したテーマを記事で読み直し、気になったことを匿名で語り合うためのWebサイトです。
+              </p>
+            </div>
           </div>
-        </div>
 
-        <aside className="paper-card relative overflow-hidden rounded-[2rem] p-7 sm:p-9">
-          <div className="absolute -right-12 -top-12 size-36 rounded-full bg-[var(--accent-soft)]" />
-          <div className="relative">
-            <div className="flex items-center justify-between">
-              <span className="editorial-label">Now on base</span>
-              <span className="flex items-center gap-2 text-xs text-[var(--muted)]">
-                <span className="size-2 animate-pulse rounded-full bg-[var(--accent)]" />
-                LIVE
-              </span>
-            </div>
-            <p className="display-font mt-16 text-3xl leading-snug">
-              読む。
-              <br />
-              話す。
-              <br />
-              また聴く。
-            </p>
-            <div className="mt-12 grid grid-cols-2 gap-4 border-t border-[var(--line)] pt-5 text-sm">
-              <div>
-                <p className="text-2xl font-semibold">{articles.length}</p>
-                <p className="mt-1 text-[var(--muted)]">公開記事</p>
+          <aside className="relative overflow-hidden p-6 sm:p-10 lg:p-12">
+            <div className="absolute -right-24 -top-24 size-72 rounded-full bg-[var(--accent-soft)]" />
+            <div className="relative flex h-full min-h-[28rem] flex-col justify-between">
+              <div className="flex items-center justify-between">
+                <span className="editorial-label">Now on base</span>
+                <span className="flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-[var(--muted)]">
+                  <span className="size-2 animate-pulse rounded-full bg-[var(--accent)]" />
+                  LIVE
+                </span>
               </div>
-              <div>
-                <p className="text-2xl font-semibold">{threads.length}</p>
-                <p className="mt-1 text-[var(--muted)]">掲示板スレッド</p>
+
+              <div className="my-12 grid place-items-center">
+                <div className="relative grid size-64 place-items-center rounded-full border border-[var(--line)] bg-[var(--surface)] shadow-[0_30px_80px_rgba(54,45,34,0.08)] sm:size-80">
+                  <div className="absolute inset-6 rounded-full border border-dashed border-[var(--line)]" />
+                  <p className="display-font text-center text-5xl leading-tight sm:text-6xl">
+                    聴く
+                    <br />
+                    読む
+                    <br />
+                    話す
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 border-y border-[var(--line)] text-sm">
+                <div className="py-5 pr-4">
+                  <p className="text-3xl font-semibold">{articles.length}</p>
+                  <p className="mt-1 text-[var(--muted)]">Articles</p>
+                </div>
+                <div className="border-x border-[var(--line)] p-5">
+                  <p className="text-3xl font-semibold">{threads.length}</p>
+                  <p className="mt-1 text-[var(--muted)]">Threads</p>
+                </div>
+                <div className="py-5 pl-4">
+                  <p className="text-3xl font-semibold">{newsItems.length}</p>
+                  <p className="mt-1 text-[var(--muted)]">News</p>
+                </div>
               </div>
             </div>
-          </div>
-        </aside>
+          </aside>
+        </div>
       </section>
 
-      <section className="fade-up fade-up-delay-1 py-16">
-        <div className="flex flex-wrap items-end justify-between gap-5">
-          <div>
-            <p className="editorial-label">Latest stories</p>
-            <h2 className="display-font mt-3 text-4xl">新着の記事</h2>
-          </div>
-          <Link href="/articles" className="text-sm font-semibold hover:text-[var(--accent)]">
-            すべての記事を見る →
+      <div className="overflow-hidden border-y border-[var(--line)] bg-[var(--foreground)] py-3 text-white">
+        <p className="marquee-track whitespace-nowrap text-sm font-semibold tracking-[0.22em]">
+          PODCAST JOURNAL ・ COMMUNITY BOARD ・ DAILY GACHA ・ NEWS ・ 日常BASE ・ PODCAST JOURNAL ・ COMMUNITY BOARD ・ DAILY GACHA ・ NEWS ・ 日常BASE ・
+        </p>
+      </div>
+
+      <section className="mx-auto grid max-w-7xl gap-0 px-5 py-16 sm:px-8 lg:grid-cols-[0.38fr_1fr]">
+        <div className="border-y border-[var(--line)] py-8 lg:border-r lg:pr-10">
+          <p className="editorial-label">News</p>
+          <h2 className="display-font mt-3 text-5xl leading-none sm:text-6xl">News</h2>
+          <Link href="/news" className="mt-8 inline-flex text-sm font-semibold hover:text-[var(--accent)]">
+            すべて見る →
           </Link>
         </div>
-
-        {latestArticles.length > 0 ? (
-          <div className="mt-8 grid max-w-4xl gap-5 md:grid-cols-2">
-            {latestArticles.map((article) => (
-              <article
-                key={article.id}
-                className="paper-card group flex min-h-60 flex-col rounded-2xl p-6"
-              >
-                <div className="flex items-center justify-between gap-3 text-xs">
-                  <span className="font-semibold tracking-[0.12em] text-[var(--accent)]">
-                    {article.type ? typeLabel[article.type] : "STORY"}
-                  </span>
-                  <time className="text-[var(--muted)]" dateTime={article.published_at}>
-                    {dateFormatter.format(new Date(article.published_at))}
-                  </time>
-                </div>
-                <h3 className="display-font mt-6 text-2xl leading-snug">
-                  <Link href={`/articles/${article.slug}`} className="group-hover:text-[var(--accent)]">
-                    {article.title}
-                  </Link>
-                </h3>
-                <p className="mt-4 line-clamp-3 text-sm leading-7 text-[var(--muted)]">
-                  {article.excerpt || "本文で続きをお読みいただけます。"}
-                </p>
-                <Link
-                  href={`/articles/${article.slug}`}
-                  className="mt-auto pt-6 text-sm font-semibold group-hover:text-[var(--accent)]"
-                >
-                  続きを読む →
-                </Link>
-              </article>
-            ))}
-          </div>
-        ) : (
-          <p className="mt-8 rounded-2xl border border-dashed border-[var(--line)] p-8 text-[var(--muted)]">
-            公開中の記事はまだありません。
-          </p>
-        )}
+        <div className="divide-y divide-[var(--line)] border-y border-[var(--line)] lg:border-l-0">
+          {latestNews.map((item) => (
+            <Link href="/news" key={item.title} className="group grid gap-3 px-0 py-6 sm:grid-cols-[10rem_1fr] lg:px-10">
+              <time className="font-mono text-sm tracking-[0.08em] text-[var(--muted)]">{item.date}</time>
+              <span className="text-lg font-semibold tracking-[0.04em] group-hover:text-[var(--accent)]">{item.title}</span>
+            </Link>
+          ))}
+        </div>
       </section>
 
-      <section className="fade-up fade-up-delay-2 border-t border-[var(--line)] py-16">
-        <div className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr]">
-          <div>
-            <p className="editorial-label">Community board</p>
-            <h2 className="display-font mt-3 text-4xl leading-tight">最近の話題</h2>
-            <p className="mt-4 max-w-sm text-sm leading-7 text-[var(--muted)]">
-              記事の感想やPodcastで気になったことを、名前を決めずに書き込めます。
-            </p>
-            <Link
-              href="/articles"
-              className="mt-6 inline-flex rounded-full border border-[var(--foreground)] px-5 py-2.5 text-sm font-semibold hover:bg-[var(--foreground)] hover:text-white"
-            >
-              記事から話題を探す
-            </Link>
+      <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-8">
+        <div className="border-y border-[var(--line)] py-10">
+          <div className="flex flex-wrap items-end justify-between gap-5">
+            <div>
+              <p className="editorial-label">Explore</p>
+              <h2 className="display-font mt-3 text-5xl leading-none sm:text-6xl">Where to go</h2>
+            </div>
+            <Link href="/programs" className="text-sm font-semibold hover:text-[var(--accent)]">programs →</Link>
           </div>
 
-          <div className="divide-y divide-[var(--line)] border-y border-[var(--line)]">
-            {recentThreads.length > 0 ? (
-              recentThreads.map((thread, index) => (
-                <Link
-                  key={thread.id}
-                  href={`/board/${thread.id}`}
-                  className="group grid gap-3 py-4 sm:grid-cols-[3rem_1fr_auto] sm:items-center"
-                >
-                  <span className="font-mono text-xs text-[var(--muted)]">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <div>
-                    <h3 className="font-semibold group-hover:text-[var(--accent)]">{thread.title}</h3>
-                    <p className="mt-1 line-clamp-1 text-sm text-[var(--muted)]">
-                      {thread.article ? `記事「${thread.article.title}」から` : thread.body}
-                    </p>
-                  </div>
-                  <span className="text-xs text-[var(--muted)]">返信 {thread.posts_count}</span>
-                </Link>
-              ))
-            ) : (
-              <p className="py-8 text-[var(--muted)]">掲示板の話題はまだありません。</p>
-            )}
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            {programs.map((program) => (
+              <Link key={program.title} href={program.href} className="group rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-6 hover:-translate-y-1 hover:border-[var(--accent)]">
+                <p className="editorial-label">Explore</p>
+                <h3 className="display-font mt-5 text-3xl group-hover:text-[var(--accent)]">{program.title}</h3>
+                <p className="mt-4 text-sm leading-7 text-[var(--muted)]">{program.description}</p>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

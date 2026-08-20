@@ -5,6 +5,7 @@ import { getBoardThread } from "@/lib/api";
 import ReplyForm from "./reply-form";
 import { PostReportButton, ThreadReportButton } from "./report-controls";
 import ReactionBar from "./reaction-bar";
+import PostReactionBar from "./post-reaction-bar";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -36,9 +37,12 @@ export default async function BoardThreadPage({ params }: Props) {
           No.{thread.id} / {thread.name || "名無しさん"} / {new Date(thread.created_at).toLocaleString("ja-JP")}
         </div>
         {thread.article ? (
-          <p className="mt-2 text-sm text-blue-700">
-            関連記事: <Link href={`/articles/${thread.article.slug}`}>{thread.article.title}</Link>
-          </p>
+          <div className="mt-4 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-4 text-sm">
+            <p className="font-semibold">この記事から作られた掲示板です</p>
+            <p className="mt-2 text-[var(--muted)]">
+              元記事: <Link href={`/articles/${thread.article.slug}`} className="text-blue-700 hover:underline">{thread.article.title}</Link>
+            </p>
+          </div>
         ) : null}
         <p className="mt-4 whitespace-pre-wrap">{thread.body}</p>
         {thread.image_url ? (
@@ -86,6 +90,12 @@ export default async function BoardThreadPage({ params }: Props) {
                   className="mt-3 max-h-96 w-auto rounded-lg object-contain"
                 />
               ) : null}
+              <PostReactionBar
+                threadId={thread.id}
+                postId={post.id}
+                initialEmpathyCount={post.empathy_count}
+                initialPerspectiveCount={post.perspective_count}
+              />
             </article>
           ))
         )}

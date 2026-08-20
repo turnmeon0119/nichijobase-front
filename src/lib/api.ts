@@ -41,6 +41,8 @@ export type BoardPost = {
   name: string | null;
   body: string;
   image_url: string | null;
+  empathy_count: number;
+  perspective_count: number;
   created_at: string;
 };
 
@@ -182,6 +184,21 @@ export async function reactToBoardThread(
   const json = await fetchApi<
     ApiResponse<{ empathy_count: number; perspective_count: number }>
   >(`/api/threads/${threadId}/reactions`, {
+    method: "POST",
+    body: JSON.stringify({ type }),
+  });
+
+  return json.data;
+}
+
+export async function reactToBoardPost(
+  threadId: number,
+  postId: number,
+  type: "empathy" | "perspective",
+): Promise<{ empathy_count: number; perspective_count: number }> {
+  const json = await fetchApi<
+    ApiResponse<{ empathy_count: number; perspective_count: number }>
+  >(`/api/threads/${threadId}/posts/${postId}/reactions`, {
     method: "POST",
     body: JSON.stringify({ type }),
   });
