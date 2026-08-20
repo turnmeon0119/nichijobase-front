@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { getArticles, getBoardThreads } from "@/lib/api";
-import { newsItems, programs } from "@/lib/site-content";
+import { getArticles, getBoardThreads, getNewsItems } from "@/lib/api";
+import { programs } from "@/lib/site-content";
 
 export default async function Home() {
-  const [articles, threads] = await Promise.all([
+  const [articles, threads, newsItems] = await Promise.all([
     getArticles().catch(() => []),
     getBoardThreads().catch(() => []),
+    getNewsItems().catch(() => []),
   ]);
 
   const latestNews = newsItems.slice(0, 3);
@@ -87,8 +88,16 @@ export default async function Home() {
         </div>
         <div className="divide-y divide-[var(--line)] border-y border-[var(--line)] lg:border-l-0">
           {latestNews.map((item) => (
-            <Link href="/news" key={item.title} className="group grid gap-3 px-0 py-6 sm:grid-cols-[10rem_1fr] lg:px-10">
-              <time className="font-mono text-sm tracking-[0.08em] text-[var(--muted)]">{item.date}</time>
+            <Link href={`/news/${item.slug}`} key={item.slug} className="group grid gap-3 px-0 py-6 sm:grid-cols-[10rem_1fr] lg:px-10">
+              <time className="font-mono text-sm tracking-[0.08em] text-[var(--muted)]">
+                {new Intl.DateTimeFormat("ja-JP", {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                })
+                  .format(new Date(item.published_at))
+                  .replaceAll("/", ".")}
+              </time>
               <span className="text-lg font-semibold tracking-[0.04em] group-hover:text-[var(--accent)]">{item.title}</span>
             </Link>
           ))}

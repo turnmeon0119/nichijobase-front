@@ -16,6 +16,14 @@ export type ArticleDetail = ArticleListItem & {
   view_count: number;
 };
 
+export type NewsItem = {
+  id: number;
+  title: string;
+  slug: string;
+  body: string;
+  published_at: string;
+};
+
 export type BoardThreadArticle = {
   id: number;
   slug: string;
@@ -126,6 +134,16 @@ export async function getArticles(): Promise<ArticleListItem[]> {
 
 export async function getArticleBySlug(slug: string): Promise<ArticleDetail> {
   const json = await fetchApi<ApiResponse<ArticleDetail>>(`/api/articles/${slug}`);
+  return json.data;
+}
+
+export async function getNewsItems(): Promise<NewsItem[]> {
+  const json = await fetchApi<ApiResponse<NewsItem[]>>("/api/news");
+  return json.data;
+}
+
+export async function getNewsItem(slug: string): Promise<NewsItem> {
+  const json = await fetchApi<ApiResponse<NewsItem>>(`/api/news/${slug}`);
   return json.data;
 }
 
