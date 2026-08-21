@@ -6,14 +6,27 @@ export type ArticleListItem = {
   title: string;
   slug: string;
   excerpt: string | null;
+  image_url: string | null;
   type: "episode" | "editorial" | null;
   published_at: string;
   board_thread_id: number | null;
+  comments_count: number;
+  latest_comment_at: string | null;
+  like_count: number;
+  empathy_count: number;
+  useful_count: number;
 };
 
 export type ArticleDetail = ArticleListItem & {
   body: string;
   view_count: number;
+};
+
+export type ArticleComment = {
+  id: number;
+  name: string | null;
+  body: string;
+  created_at: string;
 };
 
 export type NewsItem = {
@@ -137,6 +150,37 @@ export async function getArticleBySlug(slug: string): Promise<ArticleDetail> {
   return json.data;
 }
 
+export async function getArticleComments(slug: string): Promise<ArticleComment[]> {
+  const json = await fetchApi<ApiResponse<ArticleComment[]>>(`/api/articles/${slug}/comments`);
+  return json.data;
+}
+
+export async function createArticleComment(
+  slug: string,
+  input: { name?: string; body: string },
+): Promise<ArticleComment> {
+  const json = await fetchApi<ApiResponse<ArticleComment>>(`/api/articles/${slug}/comments`, {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+
+  return json.data;
+}
+
+export async function reactToArticle(
+  slug: string,
+  type: "like" | "empathy" | "useful",
+): Promise<{ like_count: number; empathy_count: number; useful_count: number }> {
+  const json = await fetchApi<
+    ApiResponse<{ like_count: number; empathy_count: number; useful_count: number }>
+  >(`/api/articles/${slug}/reactions`, {
+    method: "POST",
+    body: JSON.stringify({ type }),
+  });
+
+  return json.data;
+}
+
 export async function getNewsItems(): Promise<NewsItem[]> {
   const json = await fetchApi<ApiResponse<NewsItem[]>>("/api/news");
   return json.data;
@@ -171,14 +215,14 @@ export async function getBoardThreadByArticleSlug(slug: string): Promise<BoardTh
 }
 
 export async function createBoardThread(input: {
-  article_id: number;
+  article_id?: number | null;
   title: string;
   name?: string;
   body: string;
   image?: File | null;
 }): Promise<{ id: number }> {
   const body = new FormData();
-  body.append("article_id", String(input.article_id));
+  if (input.article_id) body.append("article_id", String(input.article_id));
   body.append("title", input.title);
   body.append("name", input.name ?? "");
   body.append("body", input.body);

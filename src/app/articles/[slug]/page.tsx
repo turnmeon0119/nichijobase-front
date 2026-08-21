@@ -1,6 +1,9 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getArticleBySlug, getBoardThreadByArticleSlug } from "@/lib/api";
+import { getArticleBySlug, getArticleComments } from "@/lib/api";
+import ArticleReactionBar from "./article-reaction-bar";
+import CommentForm from "./comment-form";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -15,7 +18,7 @@ export default async function ArticleDetailPage({ params }: Props) {
     notFound();
   }
 
-  const thread = await getBoardThreadByArticleSlug(slug).catch(() => null);
+  const comments = await getArticleComments(slug).catch(() => []);
 
   return (
     <main className="mx-auto min-h-screen max-w-3xl px-4 py-8 sm:px-6 sm:py-12">
@@ -24,7 +27,7 @@ export default async function ArticleDetailPage({ params }: Props) {
       </Link>
 
       <article className="mt-6">
-        <header className="mb-8 border-b pb-5">
+        <header className="mb-8 border-b border-[var(--line)] pb-5">
           <h1 className="text-2xl font-bold leading-tight sm:text-3xl">{article.title}</h1>
           <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500">
             {article.type ? <span>{article.type}</span> : null}
@@ -32,34 +35,64 @@ export default async function ArticleDetailPage({ params }: Props) {
               {new Date(article.published_at).toLocaleDateString("ja-JP")}
             </time>
             <span>閲覧: {article.view_count}</span>
+            <span>コメント: {article.comments_count}</span>
           </div>
         </header>
+
+        {article.image_url ? (
+          <Image
+            src={article.image_url}
+            alt=""
+            width={1400}
+            height={900}
+            priority
+            className="mb-8 max-h-[620px] w-full rounded-3xl border border-[var(--line)] object-cover"
+          />
+        ) : null}
 
         <div className="prose max-w-none whitespace-pre-wrap">{article.body}</div>
       </article>
 
-      <section className="mt-10 rounded-lg border p-5">
-        <p className="editorial-label">Article board</p>
-        <h2 className="mt-2 text-xl font-semibold">この記事に紐づく掲示板</h2>
+      <ArticleReactionBar
+        slug={article.slug}
+        initialLikeCount={article.like_count}
+        initialEmpathyCount={article.empathy_count}
+        initialUsefulCount={article.useful_count}
+      />
 
-        {thread ? (
-          <div className="mt-3">
-            <p className="text-sm text-gray-600">この記事を起点に作られた掲示板です。返信や共感は、この掲示板に紐づいて残ります。</p>
-            <Link href={`/board/${thread.id}`} className="mt-3 inline-flex rounded bg-black px-4 py-2 text-white">
-              スレッドを開く（返信 {thread.posts.length}）
-            </Link>
+      <section className="mt-10">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <p className="editorial-label">Comments</p>
+            <h2 className="mt-2 text-2xl font-semibold">この記事へのコメント</h2>
           </div>
-        ) : (
-          <div className="mt-3">
-            <p className="text-sm text-gray-600">まだこの記事に紐づく掲示板はありません。最初の話題を作成できます。</p>
-            <Link
-              href={`/board/new?articleId=${article.id}&articleTitle=${encodeURIComponent(article.title)}`}
-              className="mt-3 inline-flex rounded bg-black px-4 py-2 text-white"
-            >
-              この記事のスレッドを作成する
-            </Link>
-          </div>
-        )}
+          <p className="text-sm text-[var(--muted)]">{comments.length}件</p>
+        </div>
+
+        <div className="mt-5 space-y-3">
+          {comments.length === 0 ? (
+            <p className="rounded-3xl border border-dashed border-[var(--line)] p-5 text-sm text-[var(--muted)]">
+              まだコメントはありません。読んだ感想を軽く残せます。
+            </p>
+          ) : (
+            comments.map((comment) => (
+              <article key={comment.id} className="rounded-3xl border border-[var(--line)] p-4 sm:p-5">
+                <div className="text-xs text-[var(--muted)]">
+                  #{comment.id} / {comment.name || "名無しさん"} / {new Date(comment.created_at).toLocaleString("ja-JP")}
+                </div>
+                <p className="mt-3 whitespace-pre-wrap leading-8">{comment.body}</p>
+              </article>
+            ))
+          )}
+        </div>
+
+        <CommentForm slug={article.slug} />
+      </section>
+
+      <section className="mt-10 rounded-3xl border border-[var(--line)] p-5 text-sm text-[var(--muted)]">
+        この記事から離れて自由に話したい場合は、
+        <Link href="/board" className="text-blue-700 hover:underline">掲示板</Link>
+        に話題を立てられます。
       </section>
     </main>
   );

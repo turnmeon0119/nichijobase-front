@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { FormEvent, Suspense, useMemo, useState } from "react";
+import { FormEvent, Suspense, useEffect, useMemo, useState } from "react";
 import { createBoardThread } from "@/lib/api";
+import { getOrCreateBoardName, saveBoardName } from "@/lib/anonymous-board-name";
 import ImagePicker from "../image-picker";
 
 export default function BoardNewPage() {
@@ -35,14 +36,19 @@ function BoardNewForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    setName(getOrCreateBoardName());
+  }, []);
+
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
     setError(null);
 
     try {
+      saveBoardName(name);
       const result = await createBoardThread({
-        article_id: initialArticleId!,
+        article_id: initialArticleId,
         title,
         name,
         body,
@@ -57,25 +63,6 @@ function BoardNewForm() {
     }
   }
 
-  if (!initialArticleId) {
-    return (
-      <main className="mx-auto min-h-screen max-w-3xl px-4 py-8 sm:px-6 sm:py-12">
-        <Link href="/board" className="text-sm text-blue-700 hover:underline">
-          ← 掲示板一覧へ戻る
-        </Link>
-        <section className="mt-6 rounded-lg border border-stone-300 p-5 sm:p-8">
-          <h1 className="text-2xl font-bold">記事から話題を始めてください</h1>
-          <p className="mt-3 text-stone-600">
-            掲示板のスレッドは、各記事の詳細ページから作成できます。
-          </p>
-          <Link href="/articles" className="mt-5 inline-flex rounded-full bg-stone-900 px-5 py-3 text-white">
-            記事を選ぶ
-          </Link>
-        </section>
-      </main>
-    );
-  }
-
   return (
     <main className="mx-auto min-h-screen max-w-3xl px-4 py-8 sm:px-6 sm:py-12">
       <Link href="/board" className="text-sm text-blue-700 hover:underline">
@@ -83,19 +70,18 @@ function BoardNewForm() {
       </Link>
 
       <h1 className="mt-4 text-2xl font-bold sm:text-3xl">新規スレッド作成</h1>
+      <p className="mt-2 text-sm text-gray-600">
+        記事とは独立した話題として投稿できます。記事について軽く反応したい場合は、記事ページのコメント欄を使えます。
+      </p>
 
-      {initialArticleId ? (
-        <p className="mt-2 text-sm text-gray-600">記事に紐づくスレッドとして作成します。</p>
-      ) : null}
-
-      <form onSubmit={onSubmit} className="mt-6 space-y-4 rounded-lg border p-4 sm:p-6">
+      <form onSubmit={onSubmit} className="mt-6 space-y-4 rounded-3xl border border-[var(--line)] p-4 sm:p-6">
         <label className="block">
           <span className="mb-1 flex justify-between gap-3 text-sm">
             <span>タイトル</span>
             <span className="text-stone-500">{title.length} / 120</span>
           </span>
           <input
-            className="w-full rounded border px-3 py-2"
+            className="w-full rounded-2xl border border-[var(--line)] bg-transparent px-4 py-3 outline-none focus:border-[var(--foreground)]"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             maxLength={120}
@@ -110,8 +96,9 @@ function BoardNewForm() {
 
         <label className="block">
           <span className="mb-1 block text-sm">名前（任意）</span>
+          <span className="mb-2 block text-xs text-stone-500">このブラウザでは同じ匿名名が自動で入ります。変更もできます。</span>
           <input
-            className="w-full rounded border px-3 py-2"
+            className="w-full rounded-2xl border border-[var(--line)] bg-transparent px-4 py-3 outline-none focus:border-[var(--foreground)]"
             value={name}
             onChange={(e) => setName(e.target.value)}
             maxLength={40}
@@ -124,7 +111,7 @@ function BoardNewForm() {
             <span className="text-stone-500">{body.length} / 5000</span>
           </span>
           <textarea
-            className="w-full rounded border px-3 py-2"
+            className="w-full rounded-2xl border border-[var(--line)] bg-transparent px-4 py-3 outline-none focus:border-[var(--foreground)]"
             value={body}
             onChange={(e) => setBody(e.target.value)}
             rows={8}
@@ -136,7 +123,7 @@ function BoardNewForm() {
         <button
           type="submit"
           disabled={loading}
-          className="min-h-11 w-full rounded bg-black px-4 py-2 text-white disabled:opacity-60 sm:w-auto"
+          className="min-h-11 w-full rounded-full bg-black px-5 py-3 text-white disabled:opacity-60 sm:w-auto"
         >
           {loading ? "投稿中..." : "スレッドを作成"}
         </button>

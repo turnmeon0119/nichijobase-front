@@ -71,9 +71,9 @@ export function GachaMachine() {
     <section className="fade-up grid gap-8 border-t border-[var(--line)] py-12 lg:grid-cols-[0.82fr_1.18fr] lg:py-16">
       <div>
         <p className="editorial-label">Base capsule</p>
-        <h1 className="display-font mt-4 text-5xl leading-tight sm:text-7xl">今日のBASEガチャ</h1>
+        <h2 className="display-font mt-4 text-4xl leading-tight sm:text-5xl">Capsule Draw</h2>
         <p className="mt-6 max-w-md text-sm leading-7 text-[var(--muted)] sm:text-base">
-          記事を読むか、掲示板に書くか。迷ったときに一回だけ回す、日常BASEの小さなカプセルです。
+          One small capsule for the mood of the day.
         </p>
         <button
           type="button"

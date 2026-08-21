@@ -12,7 +12,7 @@ export default async function Home() {
   const latestNews = newsItems.slice(0, 3);
 
   return (
-    <main className="pb-24">
+    <main className="overflow-hidden pb-24">
       <section className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="fade-up grid min-h-[78vh] border-x border-[var(--line)] lg:grid-cols-[1fr_0.78fr]">
           <div className="flex flex-col justify-between border-b border-[var(--line)] p-6 sm:p-10 lg:border-b-0 lg:border-r lg:p-12">
@@ -30,8 +30,22 @@ export default async function Home() {
           </div>
 
           <aside className="relative overflow-hidden p-6 sm:p-10 lg:p-12">
-            <div className="absolute -right-24 -top-24 size-72 rounded-full bg-[var(--accent-soft)]" />
-            <div className="relative flex h-full min-h-[28rem] flex-col justify-between">
+            <div className="footprint-trail" aria-hidden="true">
+              {["bird", "dino", "paw", "bigshoe", "bird", "dino", "paw", "bigshoe", "bird", "dino", "paw", "bird"].map((type, index) => (
+                <span key={index} className={`footprint-step footprint-${type}`}>
+                  <span />
+                  <span />
+                  <span />
+                  <span />
+                </span>
+              ))}
+            </div>
+            <div className="tire-track-lane" aria-hidden="true">
+              <span className="tire-track tire-track-one" />
+              <span className="tire-track tire-track-two" />
+            </div>
+            <div className="absolute -right-24 -top-24 z-0 size-72 rounded-full bg-[var(--accent-soft)]" />
+            <div className="relative z-10 flex h-full min-h-[28rem] flex-col justify-between">
               <div className="flex items-center justify-between">
                 <span className="editorial-label">Now on base</span>
                 <span className="flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-[var(--muted)]">
@@ -43,13 +57,15 @@ export default async function Home() {
               <div className="my-12 grid place-items-center">
                 <div className="relative grid size-64 place-items-center rounded-full border border-[var(--line)] bg-[var(--surface)] shadow-[0_30px_80px_rgba(54,45,34,0.08)] sm:size-80">
                   <div className="absolute inset-6 rounded-full border border-dashed border-[var(--line)]" />
-                  <p className="display-font text-center text-5xl leading-tight sm:text-6xl">
-                    聴く
-                    <br />
-                    読む
-                    <br />
-                    話す
-                  </p>
+                  <div className="entrance-mark" aria-hidden="true">
+                    <span className="entrance-arch" />
+                    <span className="entrance-shadow" />
+                    <span className="entrance-curtain entrance-curtain-left" />
+                    <span className="entrance-curtain entrance-curtain-right" />
+                    <span className="entrance-light" />
+                    <span className="entrance-step entrance-step-one" />
+                    <span className="entrance-step entrance-step-two" />
+                  </div>
                 </div>
               </div>
 

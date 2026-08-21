@@ -1,8 +1,9 @@
 import Link from "next/link";
+import CategoryHero from "@/app/category-hero";
 import { GachaMachine } from "./gacha-machine";
 
 export const metadata = {
-  title: "今日のBASEガチャ | 日常BASE",
+  title: "BASE Gacha | 日常BASE",
   description: "日常BASEの今日のガチャ",
 };
 
@@ -13,6 +14,13 @@ export default function GachaPage() {
         <Link href="/" className="text-sm font-semibold hover:text-[var(--accent)]">
           ← ホームに戻る
         </Link>
+      </div>
+      <div className="mt-8">
+        <CategoryHero
+          label="Gacha"
+          title="BASE Gacha"
+          variant="gacha"
+        />
       </div>
       <GachaMachine />
     </main>

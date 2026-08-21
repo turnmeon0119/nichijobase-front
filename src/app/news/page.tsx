@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CategoryHero from "@/app/category-hero";
 import { getNewsItems } from "@/lib/api";
 
 export const metadata = {
@@ -21,8 +22,11 @@ export default async function NewsPage() {
 
   return (
     <main className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-20">
-      <p className="editorial-label text-center">News</p>
-      <h1 className="display-font mt-4 text-center text-5xl sm:text-7xl">お知らせ</h1>
+      <CategoryHero
+        label="News"
+        title="News"
+        variant="news"
+      />
 
       <div className="mt-12 divide-y divide-[var(--line)] border-y border-[var(--line)]">
         {newsItems.length > 0 ? (

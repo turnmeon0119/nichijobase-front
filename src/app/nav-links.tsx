@@ -22,7 +22,7 @@ export default function NavLinks() {
   const pathname = usePathname();
 
   return (
-    <div className="flex min-w-0 flex-1 gap-4 overflow-x-auto whitespace-nowrap pb-1 sm:flex-none sm:gap-6 sm:overflow-visible sm:pb-0">
+    <div className="flex min-w-0 gap-4 overflow-x-auto whitespace-nowrap pb-1 lg:justify-center lg:gap-6 lg:overflow-visible lg:pb-0">
       {navItems.map((item) => {
         const active = isActive(pathname, item.href);
 
@@ -31,7 +31,7 @@ export default function NavLinks() {
             key={item.href}
             href={item.href}
             aria-current={active ? "page" : undefined}
-            className="relative flex flex-col items-center gap-1 text-xs font-semibold tracking-[0.12em] hover:text-[var(--accent)] sm:text-sm"
+            className="relative flex flex-col items-center gap-1 text-xs font-semibold tracking-[0.12em] hover:text-[var(--accent)] lg:text-sm"
           >
             <span
               className={`size-1.5 rounded-full transition-opacity ${

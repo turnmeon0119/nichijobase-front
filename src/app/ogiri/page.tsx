@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import CategoryHero from "@/app/category-hero";
 import { getOgiriPrompts } from "@/lib/api";
 
 export const metadata = {
@@ -12,19 +13,15 @@ export default async function OgiriPage() {
 
   return (
     <main className="mx-auto min-h-screen max-w-6xl px-5 py-12 sm:px-8 sm:py-20">
-      <section className="grid gap-8 border-b border-[var(--line)] pb-10 lg:grid-cols-[0.75fr_1.25fr]">
-        <div>
-          <p className="editorial-label">Ogiri</p>
-          <h1 className="display-font mt-4 text-5xl leading-tight sm:text-7xl">大喜利BASE</h1>
-        </div>
-        <p className="max-w-2xl text-lg leading-9 text-[var(--muted)]">
-          お題に対して、匿名で短い回答を投稿できます。気軽に書いて、じわる回答や天才回答にリアクションできます。
-        </p>
-      </section>
+      <CategoryHero
+        label="Ogiri"
+        title="Ogiri BASE"
+        variant="ogiri"
+      />
 
       {prompts.length === 0 ? (
         <div className="mt-10 rounded-3xl border border-dashed border-[var(--line)] p-10 text-center text-[var(--muted)]">
-          まだ公開中のお題はありません。
+          No prompts are open yet.
         </div>
       ) : (
         <div className="mt-10 grid gap-5 md:grid-cols-2">
@@ -48,7 +45,7 @@ export default async function OgiriPage() {
               <div className="flex flex-1 flex-col p-7">
                 <div className="flex items-center justify-between gap-3">
                   <p className="editorial-label">Topic #{prompt.id}</p>
-                  <span className="text-sm text-[var(--muted)]">回答 {prompt.answers_count}</span>
+                  <span className="text-sm text-[var(--muted)]">Answers {prompt.answers_count}</span>
                 </div>
                 <h2 className="display-font mt-8 text-3xl leading-tight group-hover:text-[var(--accent)] sm:text-4xl">
                   {prompt.title}
@@ -56,7 +53,7 @@ export default async function OgiriPage() {
                 {prompt.body ? (
                   <p className="mt-5 line-clamp-3 text-sm leading-7 text-[var(--muted)]">{prompt.body}</p>
                 ) : null}
-                <p className="mt-auto pt-8 text-sm font-semibold group-hover:text-[var(--accent)]">回答する →</p>
+                <p className="mt-auto pt-8 text-sm font-semibold group-hover:text-[var(--accent)]">Answer →</p>
               </div>
             </Link>
           ))}

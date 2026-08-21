@@ -18,7 +18,7 @@ export function ThreadReportButton({ threadId }: ThreadReportButtonProps) {
     try {
       setLoading(true);
       await reportBoardThread(threadId);
-      window.alert("通報を受け付けました。");
+      window.alert("通報を受け付けました。通報が3件に達すると自動で非表示になります。");
     } catch (err) {
       window.alert(err instanceof Error ? err.message : "通報に失敗しました");
     } finally {
@@ -54,7 +54,7 @@ export function PostReportButton({ threadId, postId }: PostReportButtonProps) {
     try {
       setLoading(true);
       await reportBoardPost(threadId, postId);
-      window.alert("通報を受け付けました。");
+      window.alert("通報を受け付けました。通報が3件に達すると自動で非表示になります。");
     } catch (err) {
       window.alert(err instanceof Error ? err.message : "通報に失敗しました");
     } finally {

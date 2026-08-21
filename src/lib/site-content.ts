@@ -1,22 +1,22 @@
 export const programs = [
   {
     title: "Podcast Notes",
-    description: "Podcastで話したテーマを、あとから読み直せる補足記事としてまとめます。",
+    description: "Notes and fragments from the podcast, kept for later.",
     href: "/articles",
   },
   {
     title: "Community Board",
-    description: "記事を起点に、匿名で感想や別視点を書き込める小さな掲示板です。",
+    description: "A small open space for passing thoughts and loose threads.",
     href: "/board",
   },
   {
     title: "BASE Gacha",
-    description: "読むか、書くか、迷ったときに今日のアクションを引ける軽い遊びです。",
+    description: "Roll one small prompt when you are not sure where to go.",
     href: "/gacha",
   },
   {
     title: "Ogiri BASE",
-    description: "お題に対して匿名で短い回答を投稿し、じわる・天才リアクションで遊べます。",
+    description: "Quick answers, stray jokes, and small sparks.",
     href: "/ogiri",
   },
 ];

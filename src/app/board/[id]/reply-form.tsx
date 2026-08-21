@@ -1,8 +1,9 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createBoardPost } from "@/lib/api";
+import { getOrCreateBoardName, saveBoardName } from "@/lib/anonymous-board-name";
 import ImagePicker from "../image-picker";
 
 type Props = {
@@ -18,12 +19,17 @@ export default function ReplyForm({ threadId }: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    setName(getOrCreateBoardName());
+  }, []);
+
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
     setError(null);
 
     try {
+      saveBoardName(name);
       await createBoardPost(threadId, { name, body, image });
       setBody("");
       setImage(null);
@@ -42,6 +48,7 @@ export default function ReplyForm({ threadId }: Props) {
 
       <label className="block">
         <span className="mb-1 block text-sm">名前（任意）</span>
+        <span className="mb-2 block text-xs text-stone-500">このブラウザでは同じ匿名名が自動で入ります。変更もできます。</span>
         <input
           className="w-full rounded border px-3 py-2"
           value={name}
