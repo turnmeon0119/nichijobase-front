@@ -10,6 +10,7 @@ const navItems = [
   { href: "/board", label: "board" },
   { href: "/gacha", label: "gacha" },
   { href: "/ogiri", label: "ogiri" },
+  { href: "/shelf", label: "shelf" },
   { href: "/about", label: "about" },
   { href: "/contact", label: "contact" },
 ];

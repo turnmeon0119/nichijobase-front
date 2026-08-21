@@ -1173,3 +1173,134 @@ button {
 .category-hero h1 {
   margin-top: 0;
 }
+
+.category-motion-shelf > span:first-child {
+  left: 15%;
+  bottom: 1.8rem;
+  width: 70%;
+  height: 0.12rem;
+  background: color-mix(in srgb, var(--foreground) 28%, transparent);
+}
+
+.category-motion-shelf > span:nth-child(2),
+.category-motion-shelf > span:nth-child(3),
+.category-motion-shelf > span:nth-child(4) {
+  bottom: 2.2rem;
+  width: 2.4rem;
+  border: 1px solid color-mix(in srgb, var(--foreground) 24%, transparent);
+  border-radius: 0.4rem;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  animation: shelf-item-breathe 5s ease-in-out infinite;
+}
+
+.category-motion-shelf > span:nth-child(2) {
+  left: 24%;
+  height: 3.2rem;
+}
+
+.category-motion-shelf > span:nth-child(3) {
+  left: 45%;
+  height: 4.4rem;
+  animation-delay: 0.7s;
+}
+
+.category-motion-shelf > span:nth-child(4) {
+  left: 66%;
+  height: 2.8rem;
+  animation-delay: 1.4s;
+}
+
+@keyframes shelf-item-breathe {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-0.35rem) rotate(1deg); }
+}
+
+.category-motion-shelf {
+  background:
+    radial-gradient(circle at 72% 28%, color-mix(in srgb, var(--accent) 12%, transparent) 0 1.8rem, transparent 1.9rem),
+    linear-gradient(rgba(29, 29, 27, 0.025) 1px, transparent 1px),
+    color-mix(in srgb, var(--surface) 88%, transparent);
+  background-size: auto, 100% 1.2rem, auto;
+}
+
+.category-motion-shelf > span:first-child {
+  left: 12%;
+  bottom: 2rem;
+  width: 76%;
+  height: 0.2rem;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--foreground) 38%, transparent);
+  box-shadow: 0 1.9rem 0 color-mix(in srgb, var(--foreground) 14%, transparent);
+}
+
+.category-motion-shelf > span:first-child::before {
+  content: "";
+  position: absolute;
+  left: 8%;
+  top: -3.2rem;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid color-mix(in srgb, var(--foreground) 28%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  animation: shelf-orb-roll 6s ease-in-out infinite;
+}
+
+.category-motion-shelf > span:first-child::after {
+  content: "";
+  position: absolute;
+  right: 11%;
+  top: -4.2rem;
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0.75rem color-mix(in srgb, var(--accent) 10%, transparent);
+  animation: shelf-light-pulse 3.8s ease-in-out infinite;
+}
+
+.category-motion-shelf > span:nth-child(2),
+.category-motion-shelf > span:nth-child(3),
+.category-motion-shelf > span:nth-child(4) {
+  bottom: 2.2rem;
+  border: 1px solid color-mix(in srgb, var(--foreground) 30%, transparent);
+  border-radius: 0.35rem;
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  box-shadow: inset -0.4rem 0 0 color-mix(in srgb, var(--foreground) 5%, transparent);
+  transform-origin: bottom center;
+  animation: shelf-item-breathe 4.8s ease-in-out infinite;
+}
+
+.category-motion-shelf > span:nth-child(2) {
+  left: 24%;
+  width: 2rem;
+  height: 3.8rem;
+  transform: rotate(-8deg);
+}
+
+.category-motion-shelf > span:nth-child(3) {
+  left: 38%;
+  width: 2.4rem;
+  height: 5rem;
+  transform: rotate(5deg);
+  animation-delay: 0.55s;
+}
+
+.category-motion-shelf > span:nth-child(4) {
+  left: 53%;
+  width: 4.2rem;
+  height: 2.4rem;
+  border-radius: 0.5rem 0.5rem 0.25rem 0.25rem;
+  transform: rotate(-2deg);
+  animation-delay: 1.1s;
+}
+
+@keyframes shelf-orb-roll {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  45%, 62% { transform: translateX(6.5rem) rotate(95deg); }
+}
+
+@keyframes shelf-light-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.18); opacity: 0.55; }
+}

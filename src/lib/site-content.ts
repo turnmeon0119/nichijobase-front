@@ -19,4 +19,9 @@ export const programs = [
     description: "Quick answers, stray jokes, and small sparks.",
     href: "/ogiri",
   },
+  {
+    title: "Shelf",
+    description: "A small shelf for things from Nichijo BASE.",
+    href: "/shelf",
+  },
 ];
