@@ -9,6 +9,11 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
+const typeLabel = {
+  episode: "Episode",
+  editorial: "Editorial",
+} as const;
+
 export default async function ArticleDetailPage({ params }: Props) {
   const { slug } = await params;
 
@@ -21,24 +26,15 @@ export default async function ArticleDetailPage({ params }: Props) {
   const comments = await getArticleComments(slug).catch(() => []);
 
   return (
-    <main className="mx-auto min-h-screen max-w-3xl px-4 py-8 sm:px-6 sm:py-12">
-      <Link href="/articles" className="text-sm text-blue-700 hover:underline">
-        ← 記事一覧へ戻る
+    <main className="mx-auto min-h-screen max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
+      <Link
+        href="/articles"
+        className="inline-flex rounded-full border border-[var(--line)] bg-[var(--surface)] px-4 py-2 text-sm font-semibold text-[var(--muted)] hover:border-stone-900 hover:text-stone-900"
+      >
+        ← Articles
       </Link>
 
-      <article className="mt-6">
-        <header className="mb-8 border-b border-[var(--line)] pb-5">
-          <h1 className="text-2xl font-bold leading-tight sm:text-3xl">{article.title}</h1>
-          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500">
-            {article.type ? <span>{article.type}</span> : null}
-            <time dateTime={article.published_at}>
-              {new Date(article.published_at).toLocaleDateString("ja-JP")}
-            </time>
-            <span>閲覧: {article.view_count}</span>
-            <span>コメント: {article.comments_count}</span>
-          </div>
-        </header>
-
+      <article className="mt-6 overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] shadow-[0_22px_80px_rgba(54,45,34,0.07)]">
         {article.image_url ? (
           <Image
             src={article.image_url}
@@ -46,11 +42,33 @@ export default async function ArticleDetailPage({ params }: Props) {
             width={1400}
             height={900}
             priority
-            className="mb-8 max-h-[620px] w-full rounded-3xl border border-[var(--line)] object-cover"
+            className="max-h-[620px] w-full border-b border-[var(--line)] object-cover"
           />
         ) : null}
 
-        <div className="prose max-w-none whitespace-pre-wrap">{article.body}</div>
+        <div className="p-5 sm:p-8 lg:p-10">
+          <header className="border-b border-[var(--line)] pb-7">
+            <div className="mb-5 flex flex-wrap items-center gap-2 text-xs text-[var(--muted)]">
+              {article.type ? (
+                <span className="rounded-full border border-[var(--line)] bg-white/70 px-3 py-1 uppercase tracking-[0.14em]">
+                  {typeLabel[article.type]}
+                </span>
+              ) : null}
+              <time dateTime={article.published_at}>
+                {new Date(article.published_at).toLocaleDateString("ja-JP")}
+              </time>
+              <span>閲覧 {article.view_count}</span>
+              <span>コメント {article.comments_count}</span>
+            </div>
+            <h1 className="display-font text-4xl leading-tight sm:text-6xl">
+              {article.title}
+            </h1>
+          </header>
+
+          <div className="mt-8 whitespace-pre-wrap text-base leading-9 text-stone-800 sm:text-lg">
+            {article.body}
+          </div>
+        </div>
       </article>
 
       <ArticleReactionBar
@@ -64,19 +82,19 @@ export default async function ArticleDetailPage({ params }: Props) {
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="editorial-label">Comments</p>
-            <h2 className="mt-2 text-2xl font-semibold">この記事へのコメント</h2>
+            <h2 className="mt-2 text-2xl font-semibold">コメント</h2>
           </div>
-          <p className="text-sm text-[var(--muted)]">{comments.length}件</p>
+          <p className="rounded-full bg-stone-100 px-3 py-1 text-sm text-[var(--muted)]">{comments.length}件</p>
         </div>
 
         <div className="mt-5 space-y-3">
           {comments.length === 0 ? (
-            <p className="rounded-3xl border border-dashed border-[var(--line)] p-5 text-sm text-[var(--muted)]">
-              まだコメントはありません。読んだ感想を軽く残せます。
+            <p className="rounded-3xl border border-dashed border-[var(--line)] bg-white/50 p-6 text-sm text-[var(--muted)]">
+              まだコメントはありません。
             </p>
           ) : (
             comments.map((comment) => (
-              <article key={comment.id} className="rounded-3xl border border-[var(--line)] p-4 sm:p-5">
+              <article key={comment.id} className="rounded-3xl border border-[var(--line)] bg-[var(--surface)] p-4 shadow-[0_14px_40px_rgba(54,45,34,0.04)] sm:p-5">
                 <div className="text-xs text-[var(--muted)]">
                   #{comment.id} / {comment.name || "名無しさん"} / {new Date(comment.created_at).toLocaleString("ja-JP")}
                 </div>
@@ -89,10 +107,10 @@ export default async function ArticleDetailPage({ params }: Props) {
         <CommentForm slug={article.slug} />
       </section>
 
-      <section className="mt-10 rounded-3xl border border-[var(--line)] p-5 text-sm text-[var(--muted)]">
-        この記事から離れて自由に話したい場合は、
-        <Link href="/board" className="text-blue-700 hover:underline">掲示板</Link>
-        に話題を立てられます。
+      <section className="mt-10 rounded-3xl border border-[var(--line)] bg-white/50 p-5 text-sm leading-7 text-[var(--muted)]">
+        記事とは別に話題を立てたい場合は、
+        <Link href="/board" className="font-semibold text-blue-700 hover:underline">Board</Link>
+        から自由なスレッドを作れます。
       </section>
     </main>
   );
