@@ -1,14 +1,15 @@
 const socialLinks = [
-  {
-    label: "X",
-    href: "https://x.com/",
-    icon: <XIcon />,
-  },
-  {
-    label: "Instagram",
-    href: "https://www.instagram.com/",
-    icon: <InstagramIcon />,
-  },
+  // Re-enable these after official 日常BASE social accounts are ready.
+  // {
+  //   label: "X",
+  //   href: "https://x.com/your-account",
+  //   icon: <XIcon />,
+  // },
+  // {
+  //   label: "Instagram",
+  //   href: "https://www.instagram.com/your-account/",
+  //   icon: <InstagramIcon />,
+  // },
   {
     label: "Contact",
     href: "/contact",
