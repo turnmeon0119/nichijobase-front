@@ -1,7 +1,10 @@
-export const metadata = {
-  title: "About | 日常BASE",
-  description: "日常BASEについて",
-};
+import { createMetadata } from "@/lib/metadata";
+
+export const metadata = createMetadata({
+  title: "About",
+  description: "日常BASEについて。",
+  path: "/about",
+});
 
 export default function AboutPage() {
   return (

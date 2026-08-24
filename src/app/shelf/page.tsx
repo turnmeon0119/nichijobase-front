@@ -1,4 +1,5 @@
 import CategoryHero from "@/app/category-hero";
+import { createMetadata } from "@/lib/metadata";
 
 const shelfItems = [
   {
@@ -24,10 +25,11 @@ const shelfItems = [
   },
 ];
 
-export const metadata = {
-  title: "Shelf | 日常BASE",
-  description: "日常BASEから生まれたものを置く棚",
-};
+export const metadata = createMetadata({
+  title: "Shelf",
+  description: "日常BASEから生まれたものを置く棚。",
+  path: "/shelf",
+});
 
 export default function ShelfPage() {
   return (

@@ -2,6 +2,14 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import CategoryHero from "@/app/category-hero";
 import { getBoardThreads } from "@/lib/api";
+import { createMetadata } from "@/lib/metadata";
+
+
+export const metadata = createMetadata({
+  title: "Board",
+  description: "日常BASEの掲示板。",
+  path: "/board",
+});
 
 type Props = {
   searchParams: Promise<{ sort?: string; q?: string }>;

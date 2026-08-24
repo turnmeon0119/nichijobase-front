@@ -1,12 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import CategoryHero from "@/app/category-hero";
+import { createMetadata } from "@/lib/metadata";
 import { getOgiriPrompts } from "@/lib/api";
 
-export const metadata = {
-  title: "Ogiri | 日常BASE",
-  description: "日常BASEの大喜利ページ",
-};
+export const metadata = createMetadata({
+  title: "Ogiri",
+  description: "日常BASEの大喜利ページ。",
+  path: "/ogiri",
+});
 
 export default async function OgiriPage() {
   const prompts = await getOgiriPrompts().catch(() => []);

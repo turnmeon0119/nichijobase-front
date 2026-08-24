@@ -1,11 +1,13 @@
 import Link from "next/link";
 import CategoryHero from "@/app/category-hero";
+import { createMetadata } from "@/lib/metadata";
 import { programs } from "@/lib/site-content";
 
-export const metadata = {
-  title: "Programs | 日常BASE",
-  description: "日常BASEでできること",
-};
+export const metadata = createMetadata({
+  title: "Programs",
+  description: "日常BASEでできること。",
+  path: "/programs",
+});
 
 export default function ProgramsPage() {
   return (

@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import NavLinks from "./nav-links";
 import SocialLinks from "./social-links";
 import "./globals.css";
+import { createMetadata } from "@/lib/metadata";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,10 +15,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "日常BASE",
-  description: "Podcast articles and community board",
-};
+export const metadata = createMetadata();
 
 export default function RootLayout({
   children,

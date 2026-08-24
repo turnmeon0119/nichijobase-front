@@ -2,12 +2,35 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getArticleBySlug, getArticleComments } from "@/lib/api";
+import { createMetadata, excerptForMetadata } from "@/lib/metadata";
 import ArticleReactionBar from "./article-reaction-bar";
 import CommentForm from "./comment-form";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
+
+
+export async function generateMetadata({ params }: Props) {
+  const { slug } = await params;
+  const article = await getArticleBySlug(slug).catch(() => null);
+
+  if (!article) {
+    return createMetadata({
+      title: "Articles",
+      description: "日常BASEの読みもの。",
+      path: "/articles",
+    });
+  }
+
+  return createMetadata({
+    title: article.title,
+    description: excerptForMetadata(article.excerpt ?? article.body),
+    path: `/articles/${article.slug}`,
+    image: article.image_url,
+    type: "article",
+  });
+}
 
 const typeLabel = {
   episode: "Episode",

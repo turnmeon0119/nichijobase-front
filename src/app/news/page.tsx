@@ -1,11 +1,13 @@
 import Link from "next/link";
 import CategoryHero from "@/app/category-hero";
+import { createMetadata } from "@/lib/metadata";
 import { getNewsItems } from "@/lib/api";
 
-export const metadata = {
-  title: "News | 日常BASE",
-  description: "日常BASEからのお知らせ",
-};
+export const metadata = createMetadata({
+  title: "News",
+  description: "日常BASEからのお知らせ。",
+  path: "/news",
+});
 
 function formatDate(date: string) {
   return new Intl.DateTimeFormat("ja-JP", {

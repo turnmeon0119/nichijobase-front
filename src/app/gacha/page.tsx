@@ -1,10 +1,12 @@
 import CategoryHero from "@/app/category-hero";
+import { createMetadata } from "@/lib/metadata";
 import { GachaMachine } from "./gacha-machine";
 
-export const metadata = {
-  title: "BASE Gacha | 日常BASE",
-  description: "日常BASEの今日のガチャ",
-};
+export const metadata = createMetadata({
+  title: "BASE Gacha",
+  description: "日常BASEの今日のガチャ。",
+  path: "/gacha",
+});
 
 export default function GachaPage() {
   return (

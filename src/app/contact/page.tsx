@@ -1,7 +1,10 @@
-export const metadata = {
-  title: "Contact | 日常BASE",
-  description: "日常BASEへのお問い合わせ",
-};
+import { createMetadata } from "@/lib/metadata";
+
+export const metadata = createMetadata({
+  title: "Contact",
+  description: "日常BASEへのお問い合わせ。",
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (

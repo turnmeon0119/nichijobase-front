@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getNewsItem } from "@/lib/api";
+import { createMetadata, excerptForMetadata } from "@/lib/metadata";
 
 type NewsDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -22,10 +23,20 @@ export async function generateMetadata({ params }: NewsDetailPageProps) {
   const { slug } = await params;
   const item = await getNewsItem(slug).catch(() => null);
 
-  return {
-    title: item ? `${item.title} | News | 日常BASE` : "News | 日常BASE",
-    description: item?.body.slice(0, 120) ?? "日常BASEからのお知らせ",
-  };
+  if (!item) {
+    return createMetadata({
+      title: "News",
+      description: "日常BASEからのお知らせ。",
+      path: "/news",
+    });
+  }
+
+  return createMetadata({
+    title: item.title,
+    description: excerptForMetadata(item.body),
+    path: `/news/${item.slug}`,
+    type: "article",
+  });
 }
 
 export default async function NewsDetailPage({ params }: NewsDetailPageProps) {

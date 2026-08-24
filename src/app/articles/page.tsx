@@ -2,6 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import CategoryHero from "@/app/category-hero";
 import { getArticles } from "@/lib/api";
+import { createMetadata } from "@/lib/metadata";
+
+
+export const metadata = createMetadata({
+  title: "Articles",
+  description: "日常BASEの読みもの。",
+  path: "/articles",
+});
 
 const typeLabel = {
   episode: "Episode",
