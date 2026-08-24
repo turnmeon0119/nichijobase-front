@@ -114,6 +114,43 @@ npm run dev
 - できれば `main` ではなく作業ブランチを作る
 - UI変更後は `npm run build` を確認する
 
+## AIを使って開発する場合の注意
+
+AIに依頼するときは、最初に「どちらのリポジトリを触るのか」を伝えてください。
+
+- 画面デザイン、ページ、フォーム、表示ロジックを触る: `nichijobase-front`
+- API、DB、管理画面、認証、画像アップロードを触る: `nichijobase`
+
+AIに貼ってはいけない情報:
+
+- 本番の `ADMIN_API_TOKEN`
+- Cloudinaryの `CLOUDINARY_API_SECRET`
+- Render、Vercel、GitHubのアクセストークン
+- `.env.local` や `.env` の全文
+- パスワード、秘密鍵、決済情報
+
+AIに依頼するときに伝えるとよい情報:
+
+- やりたいこと
+- 期待する画面の見た目や動き
+- 発生しているエラー文
+- 触ってよいリポジトリ名
+- 変更後に確認してほしいコマンド
+
+フロント側を変更したら、可能な範囲で以下を確認してください。
+
+```bash
+npm run build
+```
+
+API通信に関係する変更の場合は、APIが起動していることも確認してください。
+
+```bash
+curl http://localhost:8000/api/test
+```
+
+本番のVercel環境変数を変更する場合は、`NEXT_PUBLIC_` の値がブラウザに公開されることを前提に確認してください。
+
 ## Stack
 
 - Next.js 16 App Router
