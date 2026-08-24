@@ -10,7 +10,7 @@ Production frontend:
 
 - <https://nichijobase-front.vercel.app>
 
-## 共同開発者向けの最初の確認
+## 共同開発者向けセットアップ手順
 
 このリポジトリはフロントエンド側です。ユーザーがブラウザで見る画面、レイアウト、アニメーション、フォーム、API呼び出しを担当します。
 
@@ -19,7 +19,7 @@ Production frontend:
 - 画面デザインやページを触る: `nichijobase-front`
 - API / 管理画面 / DBを触る: `nichijobase`
 
-## 事前にインストールするもの
+### 1. 事前に必要なツールを準備する
 
 必須:
 
@@ -46,22 +46,7 @@ APIもローカルで動かす場合に必須:
 
 フロント側はNext.jsを動かすため、Node.jsとnpmが必要です。API側もローカルで動かす場合は、Docker Desktopを起動してから作業してください。
 
-最初に確認するURL:
-
-- フロント画面: <http://localhost:3000>
-- 記事一覧: <http://localhost:3000/articles>
-- 掲示板: <http://localhost:3000/board>
-- API疎通確認: <http://localhost:8000/api/test>
-
-作業前に守ること:
-
-- `.env.local` はGitに入れない
-- `NEXT_PUBLIC_` が付く環境変数はブラウザから見えるので、秘密情報を入れない
-- 変更前に `git pull origin main` で最新化する
-- できれば `main` ではなく作業ブランチを作る
-- UI変更後は `npm run build` を確認する
-
-## クローンから起動まで
+### 2. リポジトリをcloneする
 
 初めて参加する場合は、フロントエンドとバックエンドを同じ `podcast-site` フォルダの中に並べて置くとわかりやすいです。
 
@@ -73,7 +58,9 @@ git clone https://github.com/turnmeon0119/nichijobase.git api
 git clone https://github.com/turnmeon0119/nichijobase-front.git front
 ```
 
-先にAPIを起動します。
+### 3. APIを起動する
+
+フロントはAPIから記事や掲示板データを取得するため、先にAPIを起動します。
 
 ```bash
 cd ~/development/podcast-site/api
@@ -89,16 +76,36 @@ APIの起動確認:
 curl http://localhost:8000/api/test
 ```
 
-次にフロントエンドを起動します。
+`{"message":"OK"}` が返ればAPI側は起動できています。
+
+### 4. フロントエンド用の環境ファイルを作る
 
 ```bash
 cd ~/development/podcast-site/front
 cp .env.example .env.local
+```
+
+### 5. フロントエンドを起動する
+
+```bash
 npm install
 npm run dev
 ```
 
-ブラウザで <http://localhost:3000> を開きます。
+### 6. ブラウザで確認する
+
+- フロント画面: <http://localhost:3000>
+- 記事一覧: <http://localhost:3000/articles>
+- 掲示板: <http://localhost:3000/board>
+- API疎通確認: <http://localhost:8000/api/test>
+
+### 7. 作業前の注意
+
+- `.env.local` はGitに入れない
+- `NEXT_PUBLIC_` が付く環境変数はブラウザから見えるので、秘密情報を入れない
+- 変更前に `git pull origin main` で最新化する
+- できれば `main` ではなく作業ブランチを作る
+- UI変更後は `npm run build` を確認する
 
 ## Stack
 
