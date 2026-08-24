@@ -19,13 +19,32 @@ Production frontend:
 - 画面デザインやページを触る: `nichijobase-front`
 - API / 管理画面 / DBを触る: `nichijobase`
 
-ローカルで動かすために必要なもの:
+## 事前にインストールするもの
 
-- Node.js
-- npm
+必須:
+
 - Git
+- Node.js
+- npm（Node.jsに同梱されています）
 - VSCodeなどのエディタ
-- Docker Desktop（APIもローカルで動かす場合）
+
+APIもローカルで動かす場合に必須:
+
+- Docker Desktop
+
+あると便利:
+
+- GitHub Desktop、SourceTreeなどのGit GUIツール
+- curl（API疎通確認に使います。macOSには基本的に入っています）
+
+外部サービス:
+
+- GitHubアカウント（リポジトリ参加・Pull Request用）
+- Vercelアカウント（本番フロントのデプロイ確認をする場合）
+- Renderアカウント（本番APIのログ確認をする場合）
+- Cloudinaryアカウント（画像投稿を確認する場合）
+
+フロント側はNext.jsを動かすため、Node.jsとnpmが必要です。API側もローカルで動かす場合は、Docker Desktopを起動してから作業してください。
 
 最初に確認するURL:
 
