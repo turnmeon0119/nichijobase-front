@@ -10,6 +10,38 @@ Production frontend:
 
 - <https://nichijobase-front.vercel.app>
 
+## 共同開発者向けの最初の確認
+
+このリポジトリはフロントエンド側です。ユーザーがブラウザで見る画面、レイアウト、アニメーション、フォーム、API呼び出しを担当します。
+
+データ保存、管理者API、DB、画像アップロード処理を触る場合は、バックエンドリポジトリを確認してください。
+
+- 画面デザインやページを触る: `nichijobase-front`
+- API / 管理画面 / DBを触る: `nichijobase`
+
+ローカルで動かすために必要なもの:
+
+- Node.js
+- npm
+- Git
+- VSCodeなどのエディタ
+- Docker Desktop（APIもローカルで動かす場合）
+
+最初に確認するURL:
+
+- フロント画面: <http://localhost:3000>
+- 記事一覧: <http://localhost:3000/articles>
+- 掲示板: <http://localhost:3000/board>
+- API疎通確認: <http://localhost:8000/api/test>
+
+作業前に守ること:
+
+- `.env.local` はGitに入れない
+- `NEXT_PUBLIC_` が付く環境変数はブラウザから見えるので、秘密情報を入れない
+- 変更前に `git pull origin main` で最新化する
+- できれば `main` ではなく作業ブランチを作る
+- UI変更後は `npm run build` を確認する
+
 ## Stack
 
 - Next.js 16 App Router
