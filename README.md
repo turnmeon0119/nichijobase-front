@@ -99,6 +99,13 @@ npm run dev
 - 掲示板: <http://localhost:3000/board>
 - API疎通確認: <http://localhost:8000/api/test>
 
+管理画面を確認する場合:
+
+- 管理ログイン: <http://localhost:8000/admin/articles/login>
+- ローカル開発用トークン: `local-dev-token`
+
+このトークンはローカル開発用です。本番環境の管理トークンはREADMEに書かず、必要な人にだけ別の安全な方法で共有してください。
+
 ### 7. 作業前の注意
 
 - `.env.local` はGitに入れない
