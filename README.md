@@ -1,51 +1,168 @@
-# podcast-site/front
+# nichijobase Frontend
 
-Next.js frontend for podcast articles and anonymous board.
+Next.js frontend for 日常BASE.
 
-Backend API:
+Backend repository:
 
-- [turnmeon0119/nichijobase](https://github.com/turnmeon0119/nichijobase)
+- <https://github.com/turnmeon0119/nichijobase>
+
+Production frontend:
+
+- <https://nichijobase-front.vercel.app>
 
 ## Stack
 
-- Next.js 16 (App Router)
-- React + TypeScript
+- Next.js 16 App Router
+- React 19
+- TypeScript
 - Tailwind CSS
+- Vercel
 
-## Setup
+## What This Frontend Provides
+
+- Top page
+- Articles list and detail pages
+- Article comments and reactions
+- News list and detail pages
+- Anonymous board list, thread detail, thread creation, and replies
+- Board reactions and reports
+- Gacha page
+- Ogiri list and detail pages
+- Shelf page for future goods
+- Static pages such as programs, about, and contact
+
+## Local Setup
+
+Start the API first.
+
+```bash
+cd /Users/jumpeihirosawa/development/podcast-site/api
+docker compose up -d
+```
+
+Then start the frontend.
 
 ```bash
 cd /Users/jumpeihirosawa/development/podcast-site/front
+cp .env.example .env.local
 npm install
 npm run dev
 ```
 
 Frontend URL:
 
-- `http://localhost:3000`
+- <http://localhost:3000>
+
+API URL:
+
+- <http://localhost:8000>
+
+## Environment Variables
+
+Create `.env.local` from `.env.example`.
+
+```bash
+cp .env.example .env.local
+```
+
+Local values:
+
+```env
+API_BASE_URL=http://localhost:8000
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
+```
+
+Production values on Vercel:
+
+```env
+API_BASE_URL=https://nichijobase.onrender.com
+NEXT_PUBLIC_API_BASE_URL=https://nichijobase.onrender.com
+```
+
+Do not put secret values in frontend environment variables. Values prefixed with `NEXT_PUBLIC_` are visible in the browser.
 
 ## Pages
 
-- `/` top page
-- `/articles` article list
-- `/articles/[slug]` article detail + linked board section
-- `/board` board thread list
-- `/board/new` create thread (anonymous)
-- `/board/[id]` thread detail + reply form
+```txt
+/                  top
+/programs          programs
+/news              news list
+/news/[slug]       news detail
+/articles          article list
+/articles/[slug]   article detail
+/board             board list
+/board/new         create board thread
+/board/[id]        board thread detail
+/gacha             gacha
+/ogiri             ogiri list
+/ogiri/[id]        ogiri detail
+/shelf             future goods shelf
+/about             about
+/contact           contact
+```
 
-## API Connection
+## Development Commands
 
-Default API base:
+```bash
+npm run dev
+npm run lint
+npm run build
+```
 
-- `http://localhost:8000`
+Use `npm run build` before pushing UI changes when possible.
 
-Optional env for frontend:
+## Collaboration Workflow
 
-- `API_BASE_URL=http://localhost:8000`
-- `NEXT_PUBLIC_API_BASE_URL=http://localhost:8000` (required for browser-side posting)
+1. Pull the latest `main`.
+2. Create a feature branch.
+3. Make changes locally.
+4. Run lint and build.
+5. Commit and push the branch.
+6. Open a Pull Request.
+7. Merge after review.
 
-## Notes
+Example:
 
-- Article and board administration are handled by Laravel.
-- Board posting is open (anonymous), with rate limit on backend.
-- Public users can report threads and replies from the frontend.
+```bash
+git checkout main
+git pull origin main
+git checkout -b feature/board-card-ui
+npm run lint
+npm run build
+git add .
+git commit -m "Refine board card UI"
+git push origin feature/board-card-ui
+```
+
+## Deployment
+
+Vercel is connected to the GitHub repository.
+
+- Push or merge to `main`.
+- Vercel builds and deploys automatically.
+- Check the Vercel deployment log if the site does not update.
+
+## Troubleshooting
+
+### `fetch failed` on local pages
+
+The Laravel API is probably not running.
+
+```bash
+cd /Users/jumpeihirosawa/development/podcast-site/api
+docker compose up -d
+curl http://localhost:8000/api/test
+```
+
+### Docker says daemon is not running
+
+Open Docker Desktop, wait until it finishes starting, then run Docker commands again.
+
+### Port 3000 is already in use
+
+Another Next.js process is running. Stop it or use the URL shown by `npm run dev`.
+
+### Browser-side posting fails
+
+Check `NEXT_PUBLIC_API_BASE_URL` in `.env.local` or Vercel environment variables.
+
