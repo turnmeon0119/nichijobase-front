@@ -114,6 +114,17 @@ type ApiResponse<T> = {
   data: T;
 };
 
+export type PaginationMeta = {
+  current_page: number;
+  last_page: number;
+  per_page: number;
+  total: number;
+};
+
+type PaginatedApiResponse<T> = ApiResponse<T[]> & {
+  meta: PaginationMeta;
+};
+
 async function fetchApi<T>(path: string, init?: RequestInit): Promise<T> {
   const isFormData = init?.body instanceof FormData;
   const response = await fetch(`${API_BASE_URL}${path}`, {
@@ -148,6 +159,18 @@ async function fetchApi<T>(path: string, init?: RequestInit): Promise<T> {
 export async function getArticles(): Promise<ArticleListItem[]> {
   const json = await fetchApi<ApiResponse<ArticleListItem[]>>("/api/articles");
   return json.data;
+}
+
+export async function getArticlesPage(
+  page = 1,
+  perPage = 9,
+): Promise<{ data: ArticleListItem[]; meta: PaginationMeta }> {
+  const params = new URLSearchParams({
+    page: String(page),
+    per_page: String(perPage),
+  });
+  const json = await fetchApi<PaginatedApiResponse<ArticleListItem>>(`/api/articles?${params.toString()}`);
+  return { data: json.data, meta: json.meta };
 }
 
 export async function getArticleBySlug(slug: string): Promise<ArticleDetail> {
@@ -191,6 +214,18 @@ export async function getNewsItems(): Promise<NewsItem[]> {
   return json.data;
 }
 
+export async function getNewsItemsPage(
+  page = 1,
+  perPage = 10,
+): Promise<{ data: NewsItem[]; meta: PaginationMeta }> {
+  const params = new URLSearchParams({
+    page: String(page),
+    per_page: String(perPage),
+  });
+  const json = await fetchApi<PaginatedApiResponse<NewsItem>>(`/api/news?${params.toString()}`);
+  return { data: json.data, meta: json.meta };
+}
+
 export async function getNewsItem(slug: string): Promise<NewsItem> {
   const json = await fetchApi<ApiResponse<NewsItem>>(`/api/news/${slug}`);
   return json.data;
@@ -207,6 +242,25 @@ export async function getBoardThreads(
     `/api/threads?${params.toString()}`,
   );
   return json.data;
+}
+
+export async function getBoardThreadsPage(
+  sort: "latest" | "popular" = "latest",
+  keyword = "",
+  page = 1,
+  perPage = 10,
+): Promise<{ data: BoardThreadListItem[]; meta: PaginationMeta }> {
+  const params = new URLSearchParams({
+    sort,
+    page: String(page),
+    per_page: String(perPage),
+  });
+  if (keyword) params.set("q", keyword);
+
+  const json = await fetchApi<PaginatedApiResponse<BoardThreadListItem>>(
+    `/api/threads?${params.toString()}`,
+  );
+  return { data: json.data, meta: json.meta };
 }
 
 export async function getBoardThread(threadId: number): Promise<BoardThreadDetail> {

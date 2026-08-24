@@ -1,13 +1,23 @@
 import Link from "next/link";
 import CategoryHero from "@/app/category-hero";
+import PaginationNav from "@/app/pagination-nav";
 import { createMetadata } from "@/lib/metadata";
-import { getNewsItems } from "@/lib/api";
+import { getNewsItemsPage } from "@/lib/api";
 
 export const metadata = createMetadata({
   title: "News",
   description: "日常BASEからのお知らせ。",
   path: "/news",
 });
+
+type Props = {
+  searchParams: Promise<{ page?: string }>;
+};
+
+function normalizePage(value?: string) {
+  const page = Number(value);
+  return Number.isFinite(page) && page > 0 ? Math.floor(page) : 1;
+}
 
 function formatDate(date: string) {
   return new Intl.DateTimeFormat("ja-JP", {
@@ -19,8 +29,15 @@ function formatDate(date: string) {
     .replaceAll("/", ".");
 }
 
-export default async function NewsPage() {
-  const newsItems = await getNewsItems().catch(() => []);
+function truncateText(text: string, maxLength = 96) {
+  const normalized = text.replace(/\s+/g, " ").trim();
+  return normalized.length > maxLength ? `${normalized.slice(0, maxLength)}...` : normalized;
+}
+
+export default async function NewsPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const page = normalizePage(params.page);
+  const { data: newsItems, meta } = await getNewsItemsPage(page, 10);
 
   return (
     <main className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-20">
@@ -38,7 +55,7 @@ export default async function NewsPage() {
             <Link
               href={`/news/${item.slug}`}
               key={item.slug}
-              className="group grid gap-4 py-7 sm:grid-cols-[10rem_1fr]"
+              className="group grid gap-4 py-7 transition hover:bg-white/45 sm:grid-cols-[10rem_1fr]"
             >
               <time className="font-mono text-sm text-[var(--muted)]">
                 {formatDate(item.published_at)}
@@ -47,8 +64,8 @@ export default async function NewsPage() {
                 <h2 className="text-xl font-semibold tracking-[0.03em] group-hover:text-[var(--accent)] sm:text-2xl">
                   {item.title}
                 </h2>
-                <p className="mt-3 line-clamp-2 text-sm leading-7 text-[var(--muted)] sm:text-base">
-                  {item.body}
+                <p className="mt-3 text-sm leading-7 text-[var(--muted)] sm:text-base">
+                  {truncateText(item.body)}
                 </p>
               </div>
             </Link>
@@ -59,6 +76,8 @@ export default async function NewsPage() {
           </div>
         )}
       </div>
+
+      <PaginationNav currentPage={meta.current_page} lastPage={meta.last_page} basePath="/news" />
     </main>
   );
 }

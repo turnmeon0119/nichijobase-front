@@ -719,19 +719,6 @@ button {
   animation: secret-door-breathe 4.8s ease-in-out infinite;
 }
 
-.secret-door-knock {
-  position: absolute;
-  right: 33%;
-  top: 55%;
-  z-index: 2;
-  width: 0.74rem;
-  height: 0.74rem;
-  border-radius: 9999px;
-  background: color-mix(in srgb, var(--accent) 82%, transparent);
-  box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 26%, transparent);
-  animation: secret-knock-pulse 3.8s ease-in-out infinite;
-}
-
 @keyframes secret-door-breathe {
   0%, 100% {
     opacity: 0.48;
@@ -741,18 +728,6 @@ button {
   50% {
     opacity: 0.72;
     transform: scale(1.03);
-  }
-}
-
-@keyframes secret-knock-pulse {
-  0%, 70%, 100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 24%, transparent);
-  }
-
-  18% {
-    transform: scale(1.12);
-    box-shadow: 0 0 0 0.75rem transparent;
   }
 }
 
@@ -1716,5 +1691,94 @@ button {
 @media (prefers-reduced-motion: reduce) {
   .swing-mark {
     animation: none;
+  }
+}
+
+.news-flight-panel {
+  min-height: 17rem;
+}
+
+.news-paper-plane {
+  position: absolute;
+  right: clamp(1.25rem, 5vw, 4.5rem);
+  top: 36%;
+  width: clamp(4.75rem, 12vw, 8.5rem);
+  height: clamp(3rem, 7vw, 5.5rem);
+  pointer-events: none;
+  opacity: 0.64;
+  transform: rotate(-8deg);
+  animation: news-paper-plane-float 9s ease-in-out infinite;
+}
+
+.news-paper-plane > span:first-child {
+  position: absolute;
+  left: 18%;
+  top: 18%;
+  width: 56%;
+  height: 56%;
+  clip-path: polygon(0 50%, 100% 0, 72% 52%, 100% 100%);
+  border: 1.5px solid color-mix(in srgb, var(--foreground) 34%, transparent);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  box-shadow: 0 10px 24px rgba(54, 45, 34, 0.05);
+}
+
+.news-paper-plane > span:nth-child(2),
+.news-paper-plane > span:nth-child(3) {
+  position: absolute;
+  right: 58%;
+  height: 1px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 34%, transparent), transparent);
+  animation: news-paper-plane-trail 2.6s ease-in-out infinite;
+}
+
+.news-paper-plane > span:nth-child(2) {
+  top: 38%;
+  width: 4.7rem;
+}
+
+.news-paper-plane > span:nth-child(3) {
+  top: 57%;
+  width: 3.4rem;
+  animation-delay: 0.45s;
+  opacity: 0.62;
+}
+
+@keyframes news-paper-plane-float {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(-8deg);
+  }
+
+  34% {
+    transform: translate3d(-1.15rem, -0.45rem, 0) rotate(-2deg);
+  }
+
+  68% {
+    transform: translate3d(0.65rem, 0.5rem, 0) rotate(-12deg);
+  }
+}
+
+@keyframes news-paper-plane-trail {
+  0%, 100% {
+    transform: scaleX(0.58);
+    opacity: 0.22;
+  }
+
+  48% {
+    transform: scaleX(1);
+    opacity: 0.76;
+  }
+}
+
+@media (max-width: 640px) {
+  .news-flight-panel {
+    min-height: 14rem;
+  }
+
+  .news-paper-plane {
+    right: 0.5rem;
+    top: 42%;
+    width: 4.25rem;
+    opacity: 0.36;
   }
 }

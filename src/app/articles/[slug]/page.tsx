@@ -66,7 +66,7 @@ export default async function ArticleDetailPage({ params }: Props) {
               width={1400}
               height={900}
               priority
-              className="mx-auto max-h-[520px] w-full max-w-3xl rounded-[1.5rem] border border-[var(--line)] bg-white object-contain"
+              className="mx-auto max-h-[460px] w-full max-w-2xl rounded-[1.5rem] border border-[var(--line)] bg-white object-contain"
             />
             {article.image_caption ? (
               <figcaption className="mx-auto max-w-3xl px-1 pt-3 text-sm leading-6 text-[var(--muted)] sm:px-2">

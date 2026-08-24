@@ -61,7 +61,7 @@ export default async function BoardThreadPage({ params }: Props) {
               alt={thread.image_caption || "投稿画像"}
               width={1200}
               height={900}
-              className="max-h-[560px] w-full rounded-3xl border border-[var(--line)] bg-white/70 object-contain"
+              className="mx-auto max-h-[460px] w-full max-w-2xl rounded-3xl border border-[var(--line)] bg-white/70 object-contain"
             />
             {thread.image_caption ? (
               <figcaption className="mt-2 px-1 text-sm leading-6 text-[var(--muted)]">
@@ -112,7 +112,7 @@ export default async function BoardThreadPage({ params }: Props) {
                     alt={post.image_caption || "返信画像"}
                     width={1000}
                     height={750}
-                    className="max-h-96 w-full rounded-2xl border border-[var(--line)] bg-white/70 object-contain"
+                    className="mx-auto max-h-80 w-full max-w-2xl rounded-2xl border border-[var(--line)] bg-white/70 object-contain"
                   />
                   {post.image_caption ? (
                     <figcaption className="mt-2 px-1 text-sm leading-6 text-[var(--muted)]">

@@ -1,9 +1,10 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
 import CategoryHero from "@/app/category-hero";
-import { getBoardThreads } from "@/lib/api";
+import PaginationNav from "@/app/pagination-nav";
+import { getBoardThreadsPage } from "@/lib/api";
 import { createMetadata } from "@/lib/metadata";
-
 
 export const metadata = createMetadata({
   title: "Board",
@@ -12,15 +13,20 @@ export const metadata = createMetadata({
 });
 
 type Props = {
-  searchParams: Promise<{ sort?: string; q?: string }>;
+  searchParams: Promise<{ sort?: string; q?: string; page?: string }>;
 };
+
+function normalizePage(value?: string) {
+  const page = Number(value);
+  return Number.isFinite(page) && page > 0 ? Math.floor(page) : 1;
+}
 
 function isRecent(date: string | null) {
   if (!date) return false;
   return Date.now() - new Date(date).getTime() < 1000 * 60 * 60 * 24;
 }
 
-function truncateText(text: string, maxLength = 72) {
+function truncateText(text: string, maxLength = 76) {
   const normalized = text.replace(/\s+/g, " ").trim();
   return normalized.length > maxLength ? `${normalized.slice(0, maxLength)}...` : normalized;
 }
@@ -50,7 +56,8 @@ export default async function BoardPage({ searchParams }: Props) {
   const params = await searchParams;
   const sort = params.sort === "popular" ? "popular" : "latest";
   const keyword = (params.q ?? "").trim().slice(0, 100);
-  const threads = await getBoardThreads(sort, keyword);
+  const page = normalizePage(params.page);
+  const { data: threads, meta } = await getBoardThreadsPage(sort, keyword, page, 10);
   const latestHref = keyword ? `/board?q=${encodeURIComponent(keyword)}` : "/board";
   const popularHref = keyword
     ? `/board?sort=popular&q=${encodeURIComponent(keyword)}`
@@ -114,57 +121,79 @@ export default async function BoardPage({ searchParams }: Props) {
           {keyword ? `「${keyword}」に一致する話題はありません。` : "まだ話題がありません。"}
         </div>
       ) : (
-        <ul className="space-y-4">
+        <ul className="divide-y divide-[var(--line)] border-y border-[var(--line)]">
           {threads.map((thread) => {
             const bodyPreview = truncateText(thread.body ?? "");
 
             return (
-              <li key={thread.id} className="group rounded-[2rem] border border-stone-900/80 bg-[var(--surface)] p-5 shadow-[0_18px_55px_rgba(54,45,34,0.05)] transition hover:-translate-y-0.5 hover:shadow-[0_24px_70px_rgba(54,45,34,0.09)] sm:p-6">
-                <div className="mb-4 flex flex-wrap items-center gap-2 text-xs text-[var(--muted)]">
-                  <span className="font-mono text-sm text-stone-500">No.{thread.id}</span>
-                  <span>/</span>
-                  <time dateTime={thread.latest_post_at ?? thread.created_at}>
-                    {new Date(thread.latest_post_at ?? thread.created_at).toLocaleString("ja-JP")}
-                  </time>
-                  <span>/ レス {thread.posts_count}</span>
-                  {isRecent(thread.latest_post_at ?? thread.created_at) ? (
-                    <span className="rounded-full bg-[var(--accent)] px-3 py-1 font-semibold text-white">NEW</span>
+              <li key={thread.id}>
+                <Link
+                  href={`/board/${thread.id}`}
+                  className="group grid grid-cols-[1fr_auto] gap-4 py-6 transition hover:bg-white/45 sm:gap-7 sm:py-8"
+                >
+                  <div className="min-w-0">
+                    <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-[var(--muted)]">
+                      <span className="font-mono text-sm text-stone-500">No.{thread.id}</span>
+                      <span>/</span>
+                      <time dateTime={thread.latest_post_at ?? thread.created_at}>
+                        {new Date(thread.latest_post_at ?? thread.created_at).toLocaleString("ja-JP")}
+                      </time>
+                      <span>/ レス {thread.posts_count}</span>
+                      {isRecent(thread.latest_post_at ?? thread.created_at) ? (
+                        <span className="rounded-full bg-[var(--accent)] px-3 py-1 font-semibold text-white">NEW</span>
+                      ) : null}
+                    </div>
+
+                    <h2 className="text-2xl font-bold leading-tight tracking-[-0.02em] group-hover:text-[var(--accent)] sm:text-3xl">
+                      {highlightKeyword(thread.title, keyword)}
+                    </h2>
+
+                    {thread.article ? (
+                      <p className="mt-3 text-sm text-blue-700">
+                        Related: {" "}
+                        <span className="hover:underline">
+                          {highlightKeyword(thread.article.title, keyword)}
+                        </span>
+                      </p>
+                    ) : (
+                      <p className="mt-3 text-sm text-[var(--muted)]">Free topic</p>
+                    )}
+
+                    <p className="mt-4 text-base leading-8 text-slate-700">
+                      {highlightKeyword(bodyPreview, keyword)}
+                    </p>
+
+                    <div className="mt-4 flex flex-wrap items-center gap-2 text-xs text-[var(--muted)]">
+                      <span>共感 {thread.empathy_count}</span>
+                      <span>・</span>
+                      <span>別視点 {thread.perspective_count}</span>
+                    </div>
+                  </div>
+
+                  {thread.image_url ? (
+                    <div className="h-20 w-28 overflow-hidden rounded-2xl border border-[var(--line)] bg-white/70 sm:h-28 sm:w-44">
+                      <Image
+                        src={thread.image_url}
+                        alt=""
+                        width={360}
+                        height={240}
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      />
+                    </div>
                   ) : null}
-                </div>
-
-                <h2 className="text-2xl font-bold leading-tight sm:text-3xl">
-                  <Link href={`/board/${thread.id}`} className="hover:text-[var(--accent)]">
-                    {highlightKeyword(thread.title, keyword)}
-                  </Link>
-                </h2>
-
-                {thread.article ? (
-                  <p className="mt-3 text-sm text-blue-700">
-                    Related: {" "}
-                    <Link href={`/articles/${thread.article.slug}`} className="hover:underline">
-                      {highlightKeyword(thread.article.title, keyword)}
-                    </Link>
-                  </p>
-                ) : (
-                  <p className="mt-3 text-sm text-[var(--muted)]">Free topic</p>
-                )}
-
-                <p className="mt-4 text-base leading-8 text-slate-700">
-                  {highlightKeyword(bodyPreview, keyword)}
-                </p>
-
-                <div className="mt-5 flex flex-wrap items-center gap-2 text-xs text-[var(--muted)]">
-                  <span className="rounded-full bg-stone-100 px-3 py-1">共感 {thread.empathy_count}</span>
-                  <span className="rounded-full bg-stone-100 px-3 py-1">別視点 {thread.perspective_count}</span>
-                  <Link href={`/board/${thread.id}`} className="ml-auto inline-flex items-center rounded-full border border-stone-900 px-4 py-2 font-semibold text-stone-900 hover:bg-stone-900 hover:text-white">
-                    Open thread →
-                  </Link>
-                </div>
+                </Link>
               </li>
             );
           })}
         </ul>
       )}
+
+      <PaginationNav
+        currentPage={meta.current_page}
+        lastPage={meta.last_page}
+        basePath="/board"
+        params={{ sort: sort === "popular" ? "popular" : undefined, q: keyword || undefined }}
+      />
     </main>
   );
 }

@@ -36,7 +36,8 @@ export default async function Home() {
                 BASE
               </h1>
               <p className="mt-8 max-w-2xl text-lg leading-9 text-[var(--muted)] sm:text-xl">
-                Podcastで見つけた小さな手がかりを持ち寄る、秘密基地です。
+                日常BASEは、Podcastの余白をしまっておく小さな秘密基地です。
+                話しきれなかったこと、気になったこと、あとで読み返したいことを集めています。
               </p>
             </div>
           </div>
@@ -87,7 +88,6 @@ export default async function Home() {
                     className="object-cover"
                   />
                   <div className="secret-door-glow" aria-hidden="true" />
-                  <div className="secret-door-knock" aria-hidden="true" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-white/10" aria-hidden="true" />
                 </div>
               </div>
@@ -133,7 +133,12 @@ export default async function Home() {
       </div>
 
       <section className="mx-auto grid max-w-7xl gap-0 px-5 py-16 sm:px-8 lg:grid-cols-[0.38fr_1fr]">
-        <div className="border-y border-[var(--line)] py-8 lg:border-r lg:pr-10">
+        <div className="news-flight-panel relative overflow-hidden border-y border-[var(--line)] py-8 lg:border-r lg:pr-10">
+          <div className="news-paper-plane" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
           <p className="editorial-label">News</p>
           <h2 className="display-font mt-3 text-5xl leading-none sm:text-6xl">News</h2>
           <Link href="/news" className="mt-8 inline-flex text-sm font-semibold hover:text-[var(--accent)]">
