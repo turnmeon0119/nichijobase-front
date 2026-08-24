@@ -42,6 +42,45 @@ Production frontend:
 - できれば `main` ではなく作業ブランチを作る
 - UI変更後は `npm run build` を確認する
 
+## クローンから起動まで
+
+初めて参加する場合は、フロントエンドとバックエンドを同じ `podcast-site` フォルダの中に並べて置くとわかりやすいです。
+
+```bash
+mkdir -p ~/development/podcast-site
+cd ~/development/podcast-site
+
+git clone https://github.com/turnmeon0119/nichijobase.git api
+git clone https://github.com/turnmeon0119/nichijobase-front.git front
+```
+
+先にAPIを起動します。
+
+```bash
+cd ~/development/podcast-site/api
+cp .env.example .env
+docker compose up -d --build
+docker compose exec -T app php artisan key:generate
+docker compose exec -T app php artisan migrate --seed
+```
+
+APIの起動確認:
+
+```bash
+curl http://localhost:8000/api/test
+```
+
+次にフロントエンドを起動します。
+
+```bash
+cd ~/development/podcast-site/front
+cp .env.example .env.local
+npm install
+npm run dev
+```
+
+ブラウザで <http://localhost:3000> を開きます。
+
 ## Stack
 
 - Next.js 16 App Router
