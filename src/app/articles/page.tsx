@@ -45,13 +45,16 @@ export default async function ArticlesPage() {
         {articles.map((article, index) => (
           <li key={article.id} className="group overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] shadow-[0_20px_70px_rgba(54,45,34,0.07)] transition hover:-translate-y-1 hover:border-stone-400">
             {article.image_url ? (
-              <Link href={`/articles/${article.slug}`} className="block overflow-hidden border-b border-[var(--line)]">
+              <Link
+                href={`/articles/${article.slug}`}
+                className="block overflow-hidden border-b border-[var(--line)] bg-white/70 p-3 sm:p-4"
+              >
                 <Image
                   src={article.image_url}
                   alt=""
                   width={1200}
                   height={720}
-                  className="h-52 w-full object-cover transition duration-500 group-hover:scale-[1.03] sm:h-64"
+                  className="mx-auto h-44 w-full object-contain transition duration-500 group-hover:scale-[1.02] sm:h-56"
                 />
               </Link>
             ) : null}

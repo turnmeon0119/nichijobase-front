@@ -59,17 +59,17 @@ export default async function ArticleDetailPage({ params }: Props) {
 
       <article className="mt-6 overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] shadow-[0_22px_80px_rgba(54,45,34,0.07)]">
         {article.image_url ? (
-          <figure className="border-b border-[var(--line)] bg-white/50">
+          <figure className="border-b border-[var(--line)] bg-white/60 p-4 sm:p-6">
             <Image
               src={article.image_url}
               alt=""
               width={1400}
               height={900}
               priority
-              className="max-h-[620px] w-full object-cover"
+              className="mx-auto max-h-[520px] w-full max-w-3xl rounded-[1.5rem] border border-[var(--line)] bg-white object-contain"
             />
             {article.image_caption ? (
-              <figcaption className="px-5 py-3 text-sm leading-6 text-[var(--muted)] sm:px-8">
+              <figcaption className="mx-auto max-w-3xl px-1 pt-3 text-sm leading-6 text-[var(--muted)] sm:px-2">
                 {article.image_caption}
               </figcaption>
             ) : null}
