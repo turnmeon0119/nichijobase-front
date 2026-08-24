@@ -99,13 +99,113 @@ button {
   }
 }
 
-.marquee-track {
-  display: inline-block;
-  min-width: max-content;
-  animation: marquee 28s linear infinite;
+.base-ribbon {
+  position: relative;
+  overflow: hidden;
+  border-block: 1px solid var(--line);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--accent) 8%, transparent), transparent 24%, color-mix(in srgb, var(--foreground) 4%, transparent) 72%, transparent),
+    var(--background);
+  padding-block: 0.95rem;
 }
 
-@keyframes marquee {
+.base-ribbon::before,
+.base-ribbon::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  z-index: 2;
+  width: clamp(3rem, 12vw, 10rem);
+  pointer-events: none;
+}
+
+.base-ribbon::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--background), transparent);
+}
+
+.base-ribbon::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--background), transparent);
+}
+
+.base-ribbon-track {
+  display: flex;
+  width: max-content;
+  min-width: 200%;
+  align-items: center;
+  gap: clamp(1.2rem, 3vw, 2.8rem);
+  color: var(--foreground);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  animation: base-ribbon-scroll 36s linear infinite;
+}
+
+.base-ribbon-track span {
+  position: relative;
+  white-space: nowrap;
+}
+
+.base-ribbon-track span:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: calc(-0.6rem - 1.5vw);
+  top: 50%;
+  width: 0.28rem;
+  height: 0.28rem;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--accent) 82%, transparent);
+  transform: translateY(-50%);
+}
+
+.base-ribbon-secret {
+  color: var(--accent);
+  font-family: var(--font-display), serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: none;
+}
+
+.base-ribbon-drift {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.42;
+}
+
+.base-ribbon-drift span {
+  position: absolute;
+  left: -10%;
+  width: clamp(4rem, 12vw, 9rem);
+  height: 1px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--foreground) 18%, transparent), transparent);
+  animation: base-ribbon-drift 12s ease-in-out infinite;
+}
+
+.base-ribbon-drift span:first-child {
+  top: 28%;
+  animation-delay: 0s;
+}
+
+.base-ribbon-drift span:nth-child(2) {
+  top: 54%;
+  width: clamp(3rem, 10vw, 7rem);
+  animation-delay: 4s;
+  opacity: 0.7;
+}
+
+.base-ribbon-drift span:nth-child(3) {
+  top: 72%;
+  width: clamp(5rem, 14vw, 10rem);
+  animation-delay: 7s;
+  opacity: 0.55;
+}
+
+@keyframes base-ribbon-scroll {
   from {
     transform: translateX(0);
   }
@@ -115,8 +215,26 @@ button {
   }
 }
 
+@keyframes base-ribbon-drift {
+  0% {
+    transform: translate3d(0, 0, 0) scaleX(0.65);
+    opacity: 0;
+  }
+
+  20%,
+  72% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(115vw, -0.35rem, 0) scaleX(1.1);
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track {
+  .base-ribbon-track,
+  .base-ribbon-drift span {
     animation: none;
   }
 }
@@ -407,100 +525,24 @@ button {
 }
 
 .footprint-step:nth-child(1) {
-  left: 11%;
-  top: 10%;
+  left: 12%;
+  top: 14%;
+  transform: rotate(-18deg) scale(0.82);
   animation-delay: 0s;
 }
 
 .footprint-step:nth-child(2) {
-  left: 25%;
-  top: 20%;
-  transform: rotate(18deg) scaleX(-1);
-  animation-delay: 0.55s;
+  left: 74%;
+  top: 44%;
+  transform: rotate(12deg) scale(0.78);
+  animation-delay: 1.8s;
 }
 
 .footprint-step:nth-child(3) {
-  left: 38%;
-  top: 31%;
-  transform: rotate(-12deg) scale(0.92);
-  animation-delay: 1.1s;
-}
-
-.footprint-step:nth-child(4) {
-  left: 52%;
-  top: 43%;
-  transform: rotate(18deg) scaleX(-1);
-  animation-delay: 1.65s;
-}
-
-.footprint-step:nth-child(5) {
-  left: 66%;
-  top: 55%;
-  transform: rotate(-28deg) scale(0.86);
-  animation-delay: 2.2s;
-}
-
-.footprint-step:nth-child(6) {
-  left: 80%;
-  top: 66%;
-  transform: rotate(12deg) scaleX(-1) scale(0.92);
-  animation-delay: 2.75s;
-}
-
-.footprint-step:nth-child(7) {
-  left: 8%;
-  top: 70%;
-  transform: rotate(14deg) scale(0.78);
-  animation-delay: 3.3s;
-}
-
-.footprint-step:nth-child(8) {
-  left: 22%;
-  top: 58%;
-  transform: rotate(-18deg) scaleX(-1) scale(0.78);
-  animation-delay: 3.85s;
-}
-
-.footprint-step:nth-child(9) {
-  left: 39%;
-  top: 66%;
-  transform: rotate(14deg) scale(0.78);
-  animation-delay: 4.4s;
-}
-
-.footprint-step:nth-child(10) {
-  left: 55%;
-  top: 76%;
-  transform: rotate(-18deg) scaleX(-1) scale(0.78);
-  animation-delay: 4.95s;
-}
-
-.footprint-step:nth-child(11) {
-  left: 70%;
-  top: 84%;
-  transform: rotate(8deg) scale(0.76);
-  animation-delay: 5.5s;
-}
-
-.footprint-step:nth-child(12) {
-  left: 86%;
-  top: 92%;
-  transform: rotate(-22deg) scaleX(-1) scale(0.74);
-  animation-delay: 6.05s;
-}
-
-.footprint-step:nth-child(13) {
-  left: 60%;
-  top: 12%;
-  transform: rotate(-10deg) scale(1.08);
-  animation-delay: 6.6s;
-}
-
-.footprint-step:nth-child(14) {
-  left: 92%;
-  top: 28%;
-  transform: rotate(24deg) scaleX(-1) scale(0.78);
-  animation-delay: 7.15s;
+  left: 24%;
+  top: 78%;
+  transform: rotate(18deg) scaleX(-1) scale(0.72);
+  animation-delay: 3.6s;
 }
 
 .tire-track-lane {
@@ -553,6 +595,300 @@ button {
   animation-duration: 20s;
   transform: rotate(11deg);
   opacity: 0.72;
+}
+
+.wind-lines {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.42;
+}
+
+.wind-lines > span {
+  position: absolute;
+  left: -42%;
+  width: clamp(7rem, 24vw, 15rem);
+  height: 1px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--foreground) 18%, transparent), transparent);
+  animation: wind-flow 13s ease-in-out infinite;
+}
+
+.wind-lines > span:first-child {
+  top: 24%;
+  animation-delay: 0s;
+}
+
+.wind-lines > span:nth-child(2) {
+  top: 48%;
+  width: clamp(5rem, 18vw, 11rem);
+  animation-delay: 4.2s;
+  opacity: 0.72;
+}
+
+.wind-lines > span:nth-child(3) {
+  top: 68%;
+  width: clamp(8rem, 28vw, 16rem);
+  animation-delay: 7.6s;
+  opacity: 0.55;
+}
+
+.secret-map-notes {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.28;
+}
+
+.secret-map-notes > span {
+  position: absolute;
+  display: block;
+}
+
+.secret-map-x {
+  right: 16%;
+  bottom: 20%;
+  width: 2.6rem;
+  height: 2.6rem;
+  transform: rotate(-12deg);
+}
+
+.secret-map-x::before,
+.secret-map-x::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--accent) 38%, transparent);
+}
+
+.secret-map-x::before {
+  transform: rotate(45deg);
+}
+
+.secret-map-x::after {
+  transform: rotate(-45deg);
+}
+
+.secret-map-path {
+  left: 12%;
+  top: 28%;
+  width: 12rem;
+  height: 5rem;
+  border-top: 2px dashed color-mix(in srgb, var(--foreground) 22%, transparent);
+  border-radius: 50%;
+  transform: rotate(16deg);
+}
+
+.secret-map-circle {
+  right: 7%;
+  top: 46%;
+  width: 5.5rem;
+  height: 5.5rem;
+  border: 1px dashed color-mix(in srgb, var(--foreground) 24%, transparent);
+  border-radius: 9999px;
+}
+
+.secret-map-circle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--accent) 55%, transparent);
+  transform: translate(-50%, -50%);
+}
+
+.secret-door-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(circle at 50% 72%, color-mix(in srgb, #ffe8a3 34%, transparent), transparent 20%),
+    radial-gradient(circle at 50% 58%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 32%);
+  mix-blend-mode: screen;
+  opacity: 0.62;
+  animation: secret-door-breathe 4.8s ease-in-out infinite;
+}
+
+.secret-door-knock {
+  position: absolute;
+  right: 33%;
+  top: 55%;
+  z-index: 2;
+  width: 0.74rem;
+  height: 0.74rem;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--accent) 82%, transparent);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 26%, transparent);
+  animation: secret-knock-pulse 3.8s ease-in-out infinite;
+}
+
+@keyframes secret-door-breathe {
+  0%, 100% {
+    opacity: 0.48;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.72;
+    transform: scale(1.03);
+  }
+}
+
+@keyframes secret-knock-pulse {
+  0%, 70%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 24%, transparent);
+  }
+
+  18% {
+    transform: scale(1.12);
+    box-shadow: 0 0 0 0.75rem transparent;
+  }
+}
+
+.hero-wind-lines {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.82;
+}
+
+.hero-wind-lines > span {
+  position: absolute;
+  left: 48%;
+  height: 2px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--foreground) 30%, transparent), color-mix(in srgb, var(--accent) 18%, transparent), transparent);
+  filter: blur(0.15px);
+  animation: hero-wind-flow 12s ease-in-out infinite;
+}
+
+.hero-wind-lines > span:first-child {
+  top: 18%;
+  width: clamp(8rem, 20vw, 16rem);
+  animation-delay: 0s;
+}
+
+.hero-wind-lines > span:nth-child(2) {
+  top: 34%;
+  width: clamp(5rem, 15vw, 11rem);
+  animation-delay: 3.4s;
+  opacity: 0.7;
+}
+
+.hero-wind-lines > span:nth-child(3) {
+  top: 58%;
+  width: clamp(9rem, 24vw, 18rem);
+  animation-delay: 6.8s;
+  opacity: 0.5;
+}
+
+.hero-wind-lines > span:nth-child(4) {
+  top: 76%;
+  width: clamp(6rem, 18vw, 13rem);
+  animation-delay: 10.2s;
+  opacity: 0.58;
+}
+
+.hero-side-wind {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.52;
+}
+
+.hero-side-wind > span {
+  position: absolute;
+  left: 58%;
+  width: clamp(5rem, 13vw, 10rem);
+  height: 1px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--foreground) 20%, transparent), transparent);
+  animation: hero-side-wind-flow 11s ease-in-out infinite;
+}
+
+.hero-side-wind > span:first-child {
+  top: 22%;
+  animation-delay: 0.4s;
+}
+
+.hero-side-wind > span:nth-child(2) {
+  top: 38%;
+  width: clamp(4rem, 10vw, 8rem);
+  animation-delay: 3.7s;
+  opacity: 0.72;
+}
+
+.hero-side-wind > span:nth-child(3) {
+  top: 55%;
+  width: clamp(6rem, 15vw, 12rem);
+  animation-delay: 7.1s;
+  opacity: 0.58;
+}
+
+@keyframes hero-side-wind-flow {
+  0% {
+    transform: translate3d(-1rem, 0, 0) scaleX(0.7);
+    opacity: 0;
+  }
+
+  20%,
+  70% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(18rem, -0.5rem, 0) scaleX(1.05);
+    opacity: 0;
+  }
+}
+
+@keyframes hero-wind-flow {
+  0% {
+    transform: translate3d(0, 0, 0) scaleX(0.72);
+    opacity: 0;
+  }
+
+  16%,
+  68% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(42vw, -0.55rem, 0) scaleX(1.08);
+    opacity: 0;
+  }
+}
+
+@keyframes wind-flow {
+  0% {
+    transform: translate3d(0, 0, 0) scaleX(0.72);
+    opacity: 0;
+  }
+
+  18%,
+  72% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(170%, -0.8rem, 0) scaleX(1);
+    opacity: 0;
+  }
 }
 
 .entrance-mark {
@@ -742,17 +1078,43 @@ button {
     height: 2.5rem;
   }
 
-  .footprint-step:nth-child(n + 8),
-  .footprint-step:nth-child(4),
-  .footprint-step:nth-child(6) {
+  .footprint-step:nth-child(n + 4) {
     display: none;
+  }
+
+  .footprint-step:nth-child(1) {
+    left: 10%;
+    top: 16%;
+    transform: rotate(-18deg) scale(0.58);
+  }
+
+  .footprint-step:nth-child(2) {
+    left: 76%;
+    top: 46%;
+    transform: rotate(12deg) scale(0.54);
+  }
+
+  .footprint-step:nth-child(3) {
+    left: 22%;
+    top: 78%;
+    transform: rotate(18deg) scaleX(-1) scale(0.5);
+  }
+
+  .wind-lines {
+    opacity: 0.34;
+  }
+
+  .hero-wind-lines {
+    opacity: 0.34;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .footprint-trail,
   .footprint-step,
-  .tire-track {
+  .tire-track,
+  .wind-lines > span,
+  .hero-wind-lines > span {
     animation: none;
   }
 
@@ -1148,35 +1510,7 @@ button {
     display: none;
   }
 
-  .footprint-step:nth-child(1) {
-    left: 10%;
-    top: 14%;
-    transform: rotate(-18deg) scale(0.86);
-  }
 
-  .footprint-step:nth-child(2) {
-    left: 68%;
-    top: 24%;
-    transform: rotate(16deg) scaleX(-1) scale(0.58);
-  }
-
-  .footprint-step:nth-child(3) {
-    left: 18%;
-    top: 48%;
-    transform: rotate(-10deg) scale(0.78);
-  }
-
-  .footprint-step:nth-child(5) {
-    left: 62%;
-    top: 66%;
-    transform: rotate(-24deg) scale(0.76);
-  }
-
-  .footprint-step:nth-child(7) {
-    left: 26%;
-    top: 84%;
-    transform: rotate(13deg) scale(0.7);
-  }
 }
 
 .category-hero .editorial-label {
@@ -1316,4 +1650,71 @@ button {
 @keyframes shelf-light-pulse {
   0%, 100% { transform: scale(1); opacity: 0.85; }
   50% { transform: scale(1.18); opacity: 0.55; }
+}
+
+
+.swing-mark {
+  position: relative;
+  width: 4.25rem;
+  height: 4rem;
+  opacity: 0.72;
+  transform-origin: 50% 0;
+  animation: swing-sway 4.8s ease-in-out infinite;
+}
+
+.swing-rope {
+  position: absolute;
+  top: 0.25rem;
+  width: 1px;
+  height: 2.55rem;
+  background: color-mix(in srgb, var(--foreground) 42%, transparent);
+  transform-origin: top center;
+}
+
+.swing-rope-left {
+  left: 1.35rem;
+  transform: rotate(7deg);
+}
+
+.swing-rope-right {
+  right: 1.35rem;
+  transform: rotate(-7deg);
+}
+
+.swing-seat {
+  position: absolute;
+  left: 50%;
+  bottom: 0.75rem;
+  width: 2.6rem;
+  height: 0.32rem;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--foreground) 54%, transparent);
+  transform: translateX(-50%);
+  box-shadow: 0 0.7rem 0 color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+.swing-seat::before {
+  content: "";
+  position: absolute;
+  left: 0.35rem;
+  right: 0.35rem;
+  top: -0.25rem;
+  height: 1px;
+  background: color-mix(in srgb, var(--foreground) 24%, transparent);
+}
+
+@keyframes swing-sway {
+  0%, 100% {
+    transform: rotate(-3deg);
+  }
+
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swing-mark {
+    animation: none;
+  }
 }

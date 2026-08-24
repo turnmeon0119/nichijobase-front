@@ -27,6 +27,8 @@ export default async function ArticlesPage() {
         <CategoryHero
           label="Articles"
           title="Articles"
+          descriptionJa="読みものぉ"
+          descriptionEn="Fragments kept for later."
           variant="articles"
         />
       </div>

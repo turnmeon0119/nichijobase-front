@@ -55,13 +55,20 @@ export default async function BoardThreadPage({ params }: Props) {
         <p className="mt-6 whitespace-pre-wrap text-lg leading-9 text-stone-800">{thread.body}</p>
 
         {thread.image_url ? (
-          <Image
-            src={thread.image_url}
-            alt=""
-            width={1200}
-            height={900}
-            className="mt-6 max-h-[560px] w-auto rounded-3xl border border-[var(--line)] object-contain"
-          />
+          <figure className="mt-6">
+            <Image
+              src={thread.image_url}
+              alt={thread.image_caption || "投稿画像"}
+              width={1200}
+              height={900}
+              className="max-h-[560px] w-full rounded-3xl border border-[var(--line)] bg-white/70 object-contain"
+            />
+            {thread.image_caption ? (
+              <figcaption className="mt-2 px-1 text-sm leading-6 text-[var(--muted)]">
+                {thread.image_caption}
+              </figcaption>
+            ) : null}
+          </figure>
         ) : null}
 
         <ReactionBar
@@ -99,13 +106,20 @@ export default async function BoardThreadPage({ params }: Props) {
               </div>
               <p className="mt-3 whitespace-pre-wrap leading-8">{post.body}</p>
               {post.image_url ? (
-                <Image
-                  src={post.image_url}
-                  alt=""
-                  width={1000}
-                  height={750}
-                  className="mt-4 max-h-96 w-auto rounded-2xl border border-[var(--line)] object-contain"
-                />
+                <figure className="mt-4">
+                  <Image
+                    src={post.image_url}
+                    alt={post.image_caption || "返信画像"}
+                    width={1000}
+                    height={750}
+                    className="max-h-96 w-full rounded-2xl border border-[var(--line)] bg-white/70 object-contain"
+                  />
+                  {post.image_caption ? (
+                    <figcaption className="mt-2 px-1 text-sm leading-6 text-[var(--muted)]">
+                      {post.image_caption}
+                    </figcaption>
+                  ) : null}
+                </figure>
               ) : null}
               <PostReactionBar
                 threadId={thread.id}

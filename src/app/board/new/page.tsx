@@ -33,12 +33,18 @@ function BoardNewForm() {
   const [name, setName] = useState("");
   const [body, setBody] = useState("");
   const [image, setImage] = useState<File | null>(null);
+  const [imageCaption, setImageCaption] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setName(getOrCreateBoardName());
   }, []);
+
+  function onImageChange(file: File | null) {
+    setImage(file);
+    if (!file) setImageCaption("");
+  }
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -53,6 +59,7 @@ function BoardNewForm() {
         name,
         body,
         image,
+        imageCaption,
       });
 
       router.push(`/board/${result.id}`);
@@ -91,7 +98,22 @@ function BoardNewForm() {
 
         <div>
           <span className="mb-1 block text-sm">画像（任意・最大5MB）</span>
-          <ImagePicker onChange={setImage} />
+          <ImagePicker onChange={onImageChange} />
+          {image ? (
+            <label className="mt-3 block">
+              <span className="mb-1 flex justify-between gap-3 text-sm">
+                <span>画像の説明（任意）</span>
+                <span className="text-stone-500">{imageCaption.length} / 160</span>
+              </span>
+              <input
+                className="w-full rounded-2xl border border-[var(--line)] bg-transparent px-4 py-3 outline-none focus:border-[var(--foreground)]"
+                value={imageCaption}
+                onChange={(e) => setImageCaption(e.target.value)}
+                maxLength={160}
+                placeholder="写真の説明や補足を少しだけ"
+              />
+            </label>
+          ) : null}
         </div>
 
         <label className="block">

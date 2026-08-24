@@ -50,6 +50,8 @@ export type BoardThreadListItem = {
   title: string;
   name: string | null;
   body: string;
+  image_url: string | null;
+  image_caption: string | null;
   created_at: string;
   posts_count: number;
   latest_post_at: string | null;
@@ -62,6 +64,7 @@ export type BoardPost = {
   name: string | null;
   body: string;
   image_url: string | null;
+  image_caption: string | null;
   empathy_count: number;
   perspective_count: number;
   created_at: string;
@@ -75,6 +78,7 @@ export type BoardThreadDetail = {
   name: string | null;
   body: string;
   image_url: string | null;
+  image_caption: string | null;
   empathy_count: number;
   perspective_count: number;
   created_at: string;
@@ -220,6 +224,7 @@ export async function createBoardThread(input: {
   name?: string;
   body: string;
   image?: File | null;
+  imageCaption?: string;
 }): Promise<{ id: number }> {
   const body = new FormData();
   if (input.article_id) body.append("article_id", String(input.article_id));
@@ -227,6 +232,7 @@ export async function createBoardThread(input: {
   body.append("name", input.name ?? "");
   body.append("body", input.body);
   if (input.image) body.append("image", input.image);
+  if (input.imageCaption?.trim()) body.append("image_caption", input.imageCaption.trim());
 
   const json = await fetchApi<ApiResponse<{ id: number }>>("/api/threads", {
     method: "POST",
@@ -242,12 +248,14 @@ export async function createBoardPost(
     name?: string;
     body: string;
     image?: File | null;
+    imageCaption?: string;
   },
 ): Promise<{ id: number }> {
   const body = new FormData();
   body.append("name", input.name ?? "");
   body.append("body", input.body);
   if (input.image) body.append("image", input.image);
+  if (input.imageCaption?.trim()) body.append("image_caption", input.imageCaption.trim());
 
   const json = await fetchApi<ApiResponse<{ id: number }>>(`/api/threads/${threadId}/posts`, {
     method: "POST",

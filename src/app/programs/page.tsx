@@ -13,6 +13,8 @@ export default function ProgramsPage() {
       <CategoryHero
         label="Programs"
         title="Programs"
+        descriptionJa="企画ぅう"
+        descriptionEn="Paths into the base."
         variant="programs"
       />
       <div className="mt-12 grid gap-5 md:grid-cols-3">

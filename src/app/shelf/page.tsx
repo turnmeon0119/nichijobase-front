@@ -32,7 +32,13 @@ export const metadata = {
 export default function ShelfPage() {
   return (
     <main className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-20">
-      <CategoryHero label="Shelf" title="Shelf" variant="shelf" />
+      <CategoryHero
+        label="Shelf"
+        title="Shelf"
+        descriptionJa="棚々"
+        descriptionEn="Objects from the base."
+        variant="shelf"
+      />
 
       <section className="mt-12 grid gap-5 md:grid-cols-3">
         {shelfItems.map((item) => (

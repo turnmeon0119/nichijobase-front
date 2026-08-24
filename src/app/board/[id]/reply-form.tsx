@@ -15,6 +15,7 @@ export default function ReplyForm({ threadId }: Props) {
   const [name, setName] = useState("");
   const [body, setBody] = useState("");
   const [image, setImage] = useState<File | null>(null);
+  const [imageCaption, setImageCaption] = useState("");
   const [imagePickerKey, setImagePickerKey] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -23,6 +24,11 @@ export default function ReplyForm({ threadId }: Props) {
     setName(getOrCreateBoardName());
   }, []);
 
+  function onImageChange(file: File | null) {
+    setImage(file);
+    if (!file) setImageCaption("");
+  }
+
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
@@ -30,9 +36,10 @@ export default function ReplyForm({ threadId }: Props) {
 
     try {
       saveBoardName(name);
-      await createBoardPost(threadId, { name, body, image });
+      await createBoardPost(threadId, { name, body, image, imageCaption });
       setBody("");
       setImage(null);
+      setImageCaption("");
       setImagePickerKey((key) => key + 1);
       router.refresh();
     } catch (err) {
@@ -59,7 +66,22 @@ export default function ReplyForm({ threadId }: Props) {
 
       <div>
         <span className="mb-1 block text-sm">画像（任意・最大5MB）</span>
-        <ImagePicker key={imagePickerKey} onChange={setImage} />
+        <ImagePicker key={imagePickerKey} onChange={onImageChange} />
+        {image ? (
+          <label className="mt-3 block">
+            <span className="mb-1 flex justify-between gap-3 text-sm">
+              <span>画像の説明（任意）</span>
+              <span className="text-stone-500">{imageCaption.length} / 160</span>
+            </span>
+            <input
+              className="w-full rounded border px-3 py-2"
+              value={imageCaption}
+              onChange={(e) => setImageCaption(e.target.value)}
+              maxLength={160}
+              placeholder="画像の下に添えるひとこと"
+            />
+          </label>
+        ) : null}
       </div>
 
       <label className="block">

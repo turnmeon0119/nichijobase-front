@@ -13,6 +13,8 @@ export default function GachaPage() {
         <CategoryHero
           label="Gacha"
           title="BASE Gacha"
+          descriptionJa="ガチャア"
+          descriptionEn="A tiny draw for the day."
           variant="gacha"
         />
       </div>

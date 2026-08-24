@@ -25,6 +25,8 @@ export default async function NewsPage() {
       <CategoryHero
         label="News"
         title="News"
+        descriptionJa="お知らせぇ"
+        descriptionEn="Signals from the base."
         variant="news"
       />
 

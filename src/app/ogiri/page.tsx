@@ -16,6 +16,8 @@ export default async function OgiriPage() {
       <CategoryHero
         label="Ogiri"
         title="Ogiri BASE"
+        descriptionJa="大喜利ィ"
+        descriptionEn="Small jokes, quick sparks."
         variant="ogiri"
       />
 

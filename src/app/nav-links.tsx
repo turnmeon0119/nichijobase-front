@@ -4,15 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navItems = [
-  { href: "/programs", label: "programs" },
-  { href: "/news", label: "news" },
-  { href: "/articles", label: "articles" },
-  { href: "/board", label: "board" },
-  { href: "/gacha", label: "gacha" },
-  { href: "/ogiri", label: "ogiri" },
-  { href: "/shelf", label: "shelf" },
-  { href: "/about", label: "about" },
-  { href: "/contact", label: "contact" },
+  { href: "/programs", label: "programs", jp: "企画ぅう" },
+  { href: "/news", label: "news", jp: "お知らせぇ" },
+  { href: "/articles", label: "articles", jp: "読みものぉ" },
+  { href: "/board", label: "board", jp: "掲示板んんん" },
+  { href: "/gacha", label: "gacha", jp: "ガチャア" },
+  { href: "/ogiri", label: "ogiri", jp: "大喜利ィ" },
+  { href: "/shelf", label: "shelf", jp: "棚々" },
+  { href: "/about", label: "about", jp: "この場所" },
+  { href: "/contact", label: "contact", jp: "連絡" },
 ];
 
 function isActive(pathname: string, href: string): boolean {
@@ -32,7 +32,7 @@ export default function NavLinks() {
             key={item.href}
             href={item.href}
             aria-current={active ? "page" : undefined}
-            className="relative flex flex-col items-center gap-1 text-xs font-semibold tracking-[0.12em] hover:text-[var(--accent)] lg:text-sm"
+            className="group relative flex flex-col items-center gap-1 text-xs font-semibold tracking-[0.12em] hover:text-[var(--accent)] lg:text-sm"
           >
             <span
               className={`size-1.5 rounded-full transition-opacity ${
@@ -40,7 +40,10 @@ export default function NavLinks() {
               }`}
               aria-hidden="true"
             />
-            {item.label}
+            <span>{item.label}</span>
+            <span className="pointer-events-none absolute left-1/2 top-full mt-2 hidden -translate-x-1/2 rounded-full border border-[var(--line)] bg-[var(--surface)] px-2 py-1 text-[0.62rem] tracking-[0.08em] text-[var(--muted)] opacity-0 shadow-[0_10px_24px_rgba(54,45,34,0.08)] transition-opacity group-hover:opacity-100 lg:block">
+              {item.jp}
+            </span>
           </Link>
         );
       })}

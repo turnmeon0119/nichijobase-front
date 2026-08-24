@@ -54,6 +54,8 @@ export default async function BoardPage({ searchParams }: Props) {
         <CategoryHero
           label="Community Board"
           title="Board"
+          descriptionJa="掲示板んんん"
+          descriptionEn="Loose voices, lightly placed."
           variant="board"
         />
         <div className="mt-5 flex justify-start sm:justify-end">
