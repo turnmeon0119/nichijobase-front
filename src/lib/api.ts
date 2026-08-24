@@ -7,6 +7,7 @@ export type ArticleListItem = {
   slug: string;
   excerpt: string | null;
   image_url: string | null;
+  image_caption: string | null;
   type: "episode" | "editorial" | null;
   published_at: string;
   board_thread_id: number | null;
