@@ -703,18 +703,18 @@ button {
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 900px) {
   .footprint-trail {
-    opacity: 0.34;
+    opacity: 0.28;
   }
 
-  .footprint-step {
-    width: 1.45rem;
-    height: 1.9rem;
-  }
-
-  .footprint-step:nth-child(n + 9) {
+  .footprint-bigshoe {
     display: none;
+  }
+
+  .footprint-dino {
+    width: 3.05rem;
+    height: 2.9rem;
   }
 
   .tire-track-lane {
@@ -722,6 +722,29 @@ button {
   }
 
   .tire-track-two {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .footprint-trail {
+    opacity: 0.24;
+    animation-duration: 30s;
+  }
+
+  .footprint-step {
+    width: 1.28rem;
+    height: 1.65rem;
+  }
+
+  .footprint-dino {
+    width: 2.65rem;
+    height: 2.5rem;
+  }
+
+  .footprint-step:nth-child(n + 8),
+  .footprint-step:nth-child(4),
+  .footprint-step:nth-child(6) {
     display: none;
   }
 }
@@ -1125,44 +1148,34 @@ button {
     display: none;
   }
 
-  .footprint-step:nth-child(4),
-  .footprint-step:nth-child(8) {
-    display: none;
-  }
-
   .footprint-step:nth-child(1) {
-    left: 7%;
-    top: 12%;
+    left: 10%;
+    top: 14%;
+    transform: rotate(-18deg) scale(0.86);
   }
 
   .footprint-step:nth-child(2) {
-    left: 72%;
-    top: 18%;
-    transform: rotate(18deg) scaleX(-1) scale(0.86);
+    left: 68%;
+    top: 24%;
+    transform: rotate(16deg) scaleX(-1) scale(0.58);
   }
 
   .footprint-step:nth-child(3) {
-    left: 20%;
-    top: 38%;
-    transform: rotate(-12deg) scale(0.84);
+    left: 18%;
+    top: 48%;
+    transform: rotate(-10deg) scale(0.78);
   }
 
   .footprint-step:nth-child(5) {
     left: 62%;
-    top: 55%;
-    transform: rotate(-28deg) scale(0.82);
-  }
-
-  .footprint-step:nth-child(6) {
-    left: 30%;
-    top: 72%;
-    transform: rotate(12deg) scaleX(-1) scale(0.84);
+    top: 66%;
+    transform: rotate(-24deg) scale(0.76);
   }
 
   .footprint-step:nth-child(7) {
-    left: 78%;
-    top: 82%;
-    transform: rotate(14deg) scale(0.72);
+    left: 26%;
+    top: 84%;
+    transform: rotate(13deg) scale(0.7);
   }
 }
 
