@@ -56,6 +56,9 @@ export default function ImagePicker({ onChange }: Props) {
         onChange={selectImage}
         className="w-full rounded border px-3 py-2"
       />
+      <p className="mt-2 text-xs leading-5 text-stone-500">
+        JPEG / PNG / WebP、最大5MB。画像の説明を入れると、投稿後に画像の下へ小さく表示されます。
+      </p>
       {previewUrl ? (
         <div className="mt-3 rounded-lg border border-stone-300 bg-stone-50 p-3">
           <Image
