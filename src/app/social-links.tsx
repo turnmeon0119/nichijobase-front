@@ -11,6 +11,11 @@ const socialLinks = [
   //   icon: <InstagramIcon />,
   // },
   {
+    label: "Search",
+    href: "/search",
+    icon: <SearchIcon />,
+  },
+  {
     label: "Contact",
     href: "/contact",
     icon: <DocumentIcon />,
@@ -40,20 +45,11 @@ export default function SocialLinks() {
   );
 }
 
-function XIcon() {
+function SearchIcon() {
   return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5" fill="currentColor">
-      <path d="M17.53 3h3.18l-6.95 7.95L21.94 21h-6.4l-5.01-6.55L4.79 21H1.6l7.43-8.5L1.19 3h6.56l4.53 5.99L17.53 3Zm-1.12 16.23h1.76L6.79 4.68H4.9l11.51 14.55Z" />
-    </svg>
-  );
-}
-
-function InstagramIcon() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2">
-      <rect x="4" y="4" width="16" height="16" rx="4" />
-      <circle cx="12" cy="12" r="3.5" />
-      <circle cx="17" cy="7" r="1" fill="currentColor" stroke="none" />
+    <svg aria-hidden="true" viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-3.5-3.5" />
     </svg>
   );
 }
