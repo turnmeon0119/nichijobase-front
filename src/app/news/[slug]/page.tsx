@@ -1,6 +1,7 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getNewsItem } from "@/lib/api";
+import { NewsBlock, getNewsItem } from "@/lib/api";
 import { createMetadata, excerptForMetadata } from "@/lib/metadata";
 
 type NewsDetailPageProps = {
@@ -17,6 +18,37 @@ function formatDate(date: string) {
   })
     .format(new Date(date))
     .replaceAll("/", ".");
+}
+
+function renderNewsBlock(block: NewsBlock) {
+  if (block.type === "image" && block.image_url) {
+    return (
+      <figure key={block.id} className="my-10">
+        <Image
+          src={block.image_url}
+          alt=""
+          width={1200}
+          height={800}
+          className="mx-auto max-h-[520px] w-full max-w-2xl rounded-[1.5rem] border border-[var(--line)] bg-white object-contain shadow-[0_18px_50px_rgba(54,45,34,0.08)]"
+        />
+        {block.image_caption ? (
+          <figcaption className="mx-auto mt-3 max-w-2xl text-center text-sm leading-6 text-[var(--muted)]">
+            {block.image_caption}
+          </figcaption>
+        ) : null}
+      </figure>
+    );
+  }
+
+  if (block.type === "text" && block.body) {
+    return (
+      <div key={block.id} className="my-8 whitespace-pre-wrap text-base leading-9 text-stone-800 sm:text-lg">
+        {block.body}
+      </div>
+    );
+  }
+
+  return null;
 }
 
 export async function generateMetadata({ params }: NewsDetailPageProps) {
@@ -50,7 +82,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
   return (
     <main className="mx-auto max-w-5xl px-5 py-12 sm:px-8 sm:py-20">
       <Link href="/news" className="text-sm font-semibold hover:text-[var(--accent)]">
-        ← News一覧へ戻る
+        ← News
       </Link>
 
       <article className="mt-10 border-y border-[var(--line)] py-10">
@@ -61,9 +93,16 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
         <time className="mt-6 block font-mono text-sm tracking-[0.08em] text-[var(--muted)]">
           {formatDate(item.published_at)}
         </time>
-        <div className="mt-10 whitespace-pre-wrap text-lg leading-9 text-[var(--muted)] sm:text-xl">
-          {item.body}
-        </div>
+
+        {item.blocks?.length ? (
+          <div className="mt-10">
+            {item.blocks.map((block) => renderNewsBlock(block))}
+          </div>
+        ) : (
+          <div className="mt-10 whitespace-pre-wrap text-lg leading-9 text-[var(--muted)] sm:text-xl">
+            {item.body}
+          </div>
+        )}
       </article>
     </main>
   );

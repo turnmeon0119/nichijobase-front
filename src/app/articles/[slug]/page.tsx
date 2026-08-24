@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getArticleBySlug, getArticleComments } from "@/lib/api";
+import { ArticleBlock, getArticleBySlug, getArticleComments } from "@/lib/api";
 import { createMetadata, excerptForMetadata } from "@/lib/metadata";
 import ArticleReactionBar from "./article-reaction-bar";
 import CommentForm from "./comment-form";
@@ -36,6 +36,37 @@ const typeLabel = {
   episode: "Episode",
   editorial: "Editorial",
 } as const;
+
+function renderArticleBlock(block: ArticleBlock) {
+  if (block.type === "image" && block.image_url) {
+    return (
+      <figure key={block.id} className="my-10">
+        <Image
+          src={block.image_url}
+          alt=""
+          width={1200}
+          height={800}
+          className="mx-auto max-h-[560px] w-full max-w-2xl rounded-[1.5rem] border border-[var(--line)] bg-white object-contain shadow-[0_18px_50px_rgba(54,45,34,0.08)]"
+        />
+        {block.image_caption ? (
+          <figcaption className="mx-auto mt-3 max-w-2xl text-center text-sm leading-6 text-[var(--muted)]">
+            {block.image_caption}
+          </figcaption>
+        ) : null}
+      </figure>
+    );
+  }
+
+  if (block.type === "text" && block.body) {
+    return (
+      <div key={block.id} className="my-8 whitespace-pre-wrap text-base leading-9 text-stone-800 sm:text-lg">
+        {block.body}
+      </div>
+    );
+  }
+
+  return null;
+}
 
 export default async function ArticleDetailPage({ params }: Props) {
   const { slug } = await params;
@@ -95,9 +126,15 @@ export default async function ArticleDetailPage({ params }: Props) {
             </h1>
           </header>
 
-          <div className="mt-8 whitespace-pre-wrap text-base leading-9 text-stone-800 sm:text-lg">
-            {article.body}
-          </div>
+          {article.blocks?.length ? (
+            <div className="mt-8">
+              {article.blocks.map((block) => renderArticleBlock(block))}
+            </div>
+          ) : (
+            <div className="mt-8 whitespace-pre-wrap text-base leading-9 text-stone-800 sm:text-lg">
+              {article.body}
+            </div>
+          )}
         </div>
       </article>
 

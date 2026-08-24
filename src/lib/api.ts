@@ -18,9 +18,19 @@ export type ArticleListItem = {
   useful_count: number;
 };
 
+export type ArticleBlock = {
+  id: number;
+  type: "text" | "image";
+  body: string | null;
+  image_url: string | null;
+  image_caption: string | null;
+  sort_order: number;
+};
+
 export type ArticleDetail = ArticleListItem & {
   body: string;
   view_count: number;
+  blocks: ArticleBlock[];
 };
 
 export type ArticleComment = {
@@ -30,12 +40,15 @@ export type ArticleComment = {
   created_at: string;
 };
 
+export type NewsBlock = ArticleBlock;
+
 export type NewsItem = {
   id: number;
   title: string;
   slug: string;
   body: string;
   published_at: string;
+  blocks?: NewsBlock[] | null;
 };
 
 export type BoardThreadArticle = {
@@ -164,11 +177,14 @@ export async function getArticles(): Promise<ArticleListItem[]> {
 export async function getArticlesPage(
   page = 1,
   perPage = 9,
+  keyword = "",
 ): Promise<{ data: ArticleListItem[]; meta: PaginationMeta }> {
   const params = new URLSearchParams({
     page: String(page),
     per_page: String(perPage),
   });
+  if (keyword) params.set("q", keyword);
+
   const json = await fetchApi<PaginatedApiResponse<ArticleListItem>>(`/api/articles?${params.toString()}`);
   return { data: json.data, meta: json.meta };
 }
@@ -217,11 +233,14 @@ export async function getNewsItems(): Promise<NewsItem[]> {
 export async function getNewsItemsPage(
   page = 1,
   perPage = 10,
+  keyword = "",
 ): Promise<{ data: NewsItem[]; meta: PaginationMeta }> {
   const params = new URLSearchParams({
     page: String(page),
     per_page: String(perPage),
   });
+  if (keyword) params.set("q", keyword);
+
   const json = await fetchApi<PaginatedApiResponse<NewsItem>>(`/api/news?${params.toString()}`);
   return { data: json.data, meta: json.meta };
 }
@@ -361,8 +380,13 @@ export async function reportBoardPost(threadId: number, postId: number): Promise
   });
 }
 
-export async function getOgiriPrompts(): Promise<OgiriPromptListItem[]> {
-  const json = await fetchApi<ApiResponse<OgiriPromptListItem[]>>("/api/ogiri/prompts");
+export async function getOgiriPrompts(keyword = ""): Promise<OgiriPromptListItem[]> {
+  const params = new URLSearchParams();
+  if (keyword) params.set("q", keyword);
+  const query = params.toString();
+  const json = await fetchApi<ApiResponse<OgiriPromptListItem[]>>(
+    "/api/ogiri/prompts" + (query ? "?" + query : ""),
+  );
   return json.data;
 }
 
