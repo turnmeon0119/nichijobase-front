@@ -8,6 +8,7 @@ const navItems = [
   { href: "/news", label: "news", jp: "お知らせぇ" },
   { href: "/articles", label: "articles", jp: "読みものぉ" },
   { href: "/board", label: "board", jp: "掲示板んんん" },
+  { href: "/hitokoto", label: "hitokoto", jp: "ひとことぉ" },
   { href: "/gacha", label: "gacha", jp: "ガチャア" },
   { href: "/ogiri", label: "ogiri", jp: "大喜利ィ" },
   { href: "/shelf", label: "shelf", jp: "棚々" },

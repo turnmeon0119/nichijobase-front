@@ -100,6 +100,14 @@ export type BoardThreadDetail = {
 };
 
 
+export type HitokotoPost = {
+  id: number;
+  name: string | null;
+  body: string;
+  created_at: string;
+  reports_count: number;
+};
+
 export type OgiriPromptListItem = {
   id: number;
   title: string;
@@ -376,6 +384,39 @@ export async function reactToBoardPost(
 
 export async function reportBoardPost(threadId: number, postId: number): Promise<void> {
   await fetchApi<void>(`/api/threads/${threadId}/posts/${postId}/report`, {
+    method: "POST",
+  });
+}
+
+export async function getHitokotoPostsPage(
+  page = 1,
+  perPage = 30,
+): Promise<{ data: HitokotoPost[]; meta: PaginationMeta }> {
+  const params = new URLSearchParams({
+    page: String(page),
+    per_page: String(perPage),
+  });
+
+  const json = await fetchApi<PaginatedApiResponse<HitokotoPost>>(
+    `/api/hitokoto?${params.toString()}`,
+  );
+  return { data: json.data, meta: json.meta };
+}
+
+export async function createHitokotoPost(input: {
+  name?: string;
+  body: string;
+}): Promise<HitokotoPost> {
+  const json = await fetchApi<ApiResponse<HitokotoPost>>("/api/hitokoto", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+
+  return json.data;
+}
+
+export async function reportHitokotoPost(postId: number): Promise<void> {
+  await fetchApi<void>(`/api/hitokoto/${postId}/report`, {
     method: "POST",
   });
 }
