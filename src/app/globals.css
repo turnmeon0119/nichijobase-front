@@ -1627,6 +1627,59 @@ button {
   50% { transform: scale(1.18); opacity: 0.55; }
 }
 
+.category-motion-game > span:first-child {
+  left: 18%;
+  top: 26%;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid color-mix(in srgb, var(--foreground) 30%, transparent);
+  border-radius: 0.55rem;
+  background:
+    radial-gradient(circle at 28% 28%, color-mix(in srgb, var(--foreground) 70%, transparent) 0 0.16rem, transparent 0.17rem),
+    radial-gradient(circle at 72% 72%, color-mix(in srgb, var(--foreground) 70%, transparent) 0 0.16rem, transparent 0.17rem),
+    var(--surface);
+  animation: game-dice-tumble 4.6s ease-in-out infinite;
+}
+
+.category-motion-game > span:nth-child(2) {
+  left: 42%;
+  top: 46%;
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 1px solid color-mix(in srgb, var(--foreground) 26%, transparent);
+  border-radius: 0.45rem;
+  background:
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--foreground) 70%, transparent) 0 0.14rem, transparent 0.15rem),
+    var(--surface);
+  animation: game-dice-tumble 4.6s ease-in-out infinite 0.6s;
+}
+
+.category-motion-game > span:nth-child(3) {
+  right: 20%;
+  bottom: 24%;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--accent) 68%, var(--surface));
+  box-shadow: inset 0 -0.2rem 0 color-mix(in srgb, var(--foreground) 12%, transparent);
+  animation: game-piece-hop 3.4s ease-in-out infinite;
+}
+
+.category-motion-game > span:nth-child(4) {
+  display: none;
+}
+
+@keyframes game-dice-tumble {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-0.5rem) rotate(10deg); }
+}
+
+@keyframes game-piece-hop {
+  0%, 100% { transform: translateY(0) scale(1); }
+  40% { transform: translateY(-0.9rem) scale(1.05); }
+  60% { transform: translateY(0.05rem) scale(0.96); }
+}
+
 
 .swing-mark {
   position: relative;

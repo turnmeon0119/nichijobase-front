@@ -10,6 +10,7 @@ const navItems = [
   { href: "/board", label: "board", jp: "掲示板んんん" },
   { href: "/gacha", label: "gacha", jp: "ガチャア" },
   { href: "/ogiri", label: "ogiri", jp: "大喜利ィ" },
+  { href: "/game", label: "game", jp: "ゲーム" },
   { href: "/shelf", label: "shelf", jp: "棚々" },
   { href: "/about", label: "about", jp: "この場所" },
   { href: "/contact", label: "contact", jp: "連絡" },

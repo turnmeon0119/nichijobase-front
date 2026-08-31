@@ -4,7 +4,7 @@ type CategoryHeroProps = {
   description?: string;
   descriptionJa?: string;
   descriptionEn?: string;
-  variant: "articles" | "board" | "news" | "gacha" | "ogiri" | "programs" | "shelf";
+  variant: "articles" | "board" | "news" | "gacha" | "ogiri" | "programs" | "shelf" | "game";
 };
 
 export default function CategoryHero({
