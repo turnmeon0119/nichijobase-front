@@ -10,6 +10,8 @@ import {
 } from "@/lib/api";
 import { getOrCreateHitokotoName, saveHitokotoName } from "@/lib/anonymous-hitokoto-name";
 import { computeComboCounts, getComboTier, getShiritoriHint, type ComboTier } from "./shiritori";
+import HitokotoPowButton from "./hitokoto-pow-button";
+import HitokotoComments from "./hitokoto-comments";
 
 const MAX_LENGTH = 140;
 
@@ -45,7 +47,7 @@ type Props = {
   initialMeta: PaginationMeta;
 };
 
-function formatRelativeTime(iso: string): string {
+export function formatRelativeTime(iso: string): string {
   const diffMs = Date.now() - new Date(iso).getTime();
   const diffMin = Math.floor(diffMs / 60000);
 
@@ -217,14 +219,18 @@ export default function HitokotoTimeline({ initialPosts, initialMeta }: Props) {
               <p className="mt-2 whitespace-pre-wrap text-base leading-7 text-slate-800">
                 {post.body}
               </p>
-              <button
-                type="button"
-                onClick={() => onReport(post.id)}
-                disabled={reportedIds.has(post.id)}
-                className="mt-2 text-xs text-stone-400 hover:text-red-600 disabled:text-red-600"
-              >
-                {reportedIds.has(post.id) ? "通報しました" : "通報"}
-              </button>
+              <div className="mt-2 flex flex-wrap items-center gap-3">
+                <HitokotoPowButton postId={post.id} initialPowCount={post.pow_count} />
+                <button
+                  type="button"
+                  onClick={() => onReport(post.id)}
+                  disabled={reportedIds.has(post.id)}
+                  className="text-xs text-stone-400 hover:text-red-600 disabled:text-red-600"
+                >
+                  {reportedIds.has(post.id) ? "通報しました" : "通報"}
+                </button>
+              </div>
+              <HitokotoComments postId={post.id} initialCommentsCount={post.comments_count} />
             </li>
             );
           })}
